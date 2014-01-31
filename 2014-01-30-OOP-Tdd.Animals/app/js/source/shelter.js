@@ -4,30 +4,41 @@ var Shelter = (function(){
 
   'use strict';
 
+  var hours;
+  var animals = [];
+
   function Shelter(x){
     this.name = x;
     this.location = 'Not Defined';
     this.capacity = 0;
-    this.animals = [];
   }
 
   Shelter.prototype.setHours = function(week){
       var weekStr = _.map(week, function(ea){
         return ea.day + ' ' + ea.open + '-' + ea.close;
       });
-
-      this.hours = weekStr.join(', ');
+      // hours is a closure that can only be accessed via setHours()
+      // hours is now a global viarable rather than a property
+      hours = weekStr.join(', ');
     };
 
   Shelter.prototype.addAnimal = function(animal){
-    this.animals.push(animal);
+    animals.push(animal);
   };
 
   Shelter.prototype.placeAnimal = function(name){
-    var animals = _.remove(this.animals, function(animal){
+    var tmpAnimals = _.remove(animals, function(animal){
       return animal.name === name;
     });
-    return animals[0];
+    return tmpAnimals[0];
+  };
+
+  Shelter.prototype.getHours = function(){
+    return hours;
+  };
+
+  Shelter.prototype.animalCount = function(){
+    return animals.length;
   };
 
   return Shelter;
