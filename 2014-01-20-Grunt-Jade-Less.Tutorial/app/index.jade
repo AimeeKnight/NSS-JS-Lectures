@@ -1,0 +1,31 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Jade Tutorial
+    link(rel="stylesheet", href="/css/style.css")
+    script(src='/js/vendor/jquery-1.10.2.js')
+    script(src='/js/source/main.js')
+  body
+    header
+      h1 welcome to Jade!
+      img(src="http://25.media.tumblr.com/b56f368e30d5a4dfd7f9919f9eeec347/tumblr_mtr2prW1zS1sj86ado1_500.gif")
+    #section1
+      ul
+        li a
+        li b
+        li c
+      - var firstName = "Aimee";
+      h2= firstName
+      - for (var i = 0; i < 100; i++)
+        h3= i
+        h2 world
+   #section2
+     h2 Section 1
+     p This is paragraph 1
+     p
+       | this is paragraph 2
+       br
+       | Addendum <strong>to</strong> paragraph 2
+       span span 1
+    footer.foot1.foot2#footerid
