@@ -19,10 +19,12 @@ function portfolioFactory(name){
   };
 
   Portfolio.prototype.addStock = function(stock){
+    console.log('addstock');
     stocks.push(stock);
   };
 
   Portfolio.prototype.removeStock = function(symbol){
+    console.log(symbol);
     var tmpStocks = _.remove(stocks, function(stock){
       return stock.getSymbol() === symbol;
     });

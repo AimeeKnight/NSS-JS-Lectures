@@ -39,7 +39,7 @@ test('Portfolio#new', function() {
 
 test('Portfolio#addStock', function() {
   var p1 = portfolioFactory('Tech Stocks');
-  var s1 = new Stock('AAPL', 50, 25)  ;
+  var s1 = stockFactory('AAPL', 50, 25)  ;
   p1.addStock(s1);
 
   deepEqual(p1.stockCount(), 1, 'p1 has one stock in it');
@@ -47,9 +47,9 @@ test('Portfolio#addStock', function() {
 
 test('Portfolio#removeStock', function() {
   var p1 = portfolioFactory('Tech Stocks');
-  var s1 = new Stock('AAPL', 50, 25);
-  var s2 = new Stock('AMZN', 40, 30);
-  var s3 = new Stock('LUV', 60, 40);
+  var s1 = stockFactory('AAPL', 50, 25);
+  var s2 = stockFactory('AMZN', 40, 30);
+  var s3 = stockFactory('LUV', 60, 40);
 
   p1.addStock(s1);
   p1.addStock(s2);
