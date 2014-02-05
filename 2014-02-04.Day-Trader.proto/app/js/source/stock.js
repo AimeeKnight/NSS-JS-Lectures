@@ -25,13 +25,6 @@ var Stock = (function(){
     get: function(){return this._purchaseAmount;}
   });
 
-/*
-  Stock.prototype.getQuote = function(fn){
-    var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+symbol+'&callback=?';
-    $.getJSON(url, fn);
-  };
-*/
-
   // the instance calling value will provide value with a function
   // to call when the data comes back
 

@@ -43,36 +43,13 @@ var Client = (function(){
     return output;
   };
 
-/*
-  Portfolio.prototype.delStock = function(stockSymbols){
-    //var stocks = [].concat(stockSymbols);
-    var output;
-    debugger;
-    if (typeof stockSymbols === 'string'){
-      output = removeStock(stockSymbols, this._stocks);
-      output = output[0];
-    }else{
-      output = _.map(stockSymbols, function(stockSymbol){
-        return removeStock(stockSymbol, this._stocks);
-      }, this);
-    }
-    return output;
-
-  };
-*/
   //// Private ////
   function findPortfolio(name, portfolios){
     return _.find(portfolios, function(portfolio){
       return name === portfolio.name;
     });
   }
-/*
-  function removeStock(symbol, stocks){
-    return _.remove(stocks, function(stock){
-      return symbol === stock.symbol;
-    });
-  }
-*/
+
   return  Client;
 })();
 
