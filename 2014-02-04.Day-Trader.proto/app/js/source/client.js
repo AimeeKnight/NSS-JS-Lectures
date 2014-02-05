@@ -29,19 +29,20 @@ var Client = (function(){
     }
     return output;
   };
-/*
-  Portfolio.prototype.delStock = function(stockSymbols){
-    var stocks = [].concat(stockSymbols);
+
+  Client.prototype.delPortfolios = function(portfolioNames){
+    var portfolios = [].concat(portfolioNames);
     
-    var output = _.remove(this._stocks, function(stock){
-      return _.contains(stocks, stock.symbol);
+    var output = _.remove(this._portfolios, function(portfolio){
+      return _.contains(portfolios, portfolio.name);
 
     });
-    if(typeof stockSymbols === 'string'){
+    if(typeof portfolioNames === 'string'){
       output = output[0];
     }
     return output;
   };
+
 /*
   Portfolio.prototype.delStock = function(stockSymbols){
     //var stocks = [].concat(stockSymbols);

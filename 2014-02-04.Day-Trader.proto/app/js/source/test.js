@@ -140,3 +140,25 @@ test('Client#getPortfolios', function(){
   ok(portfolios[1].name === 'Semi-Tech Stocks', 'the first portfoilio in portfolios contains Non Tech Stocks');
   deepEqual(portfolios.length, 2, 'portfolios contains 2 portfolios');
 });
+
+test('Client#delPortfolio', function() {
+  var c1 = new Client('Client1');
+  var p1 = new Portfolio('Tech Stocks');
+  var p2 = new Portfolio('Non-Tech Stocks');
+  var p3 = new Portfolio('Semi-Tech Stocks');
+
+  c1.addPortfolio(p1);
+  c1.addPortfolio([p2, p3]);
+
+  var p4 = c1.delPortfolios('Tech Stocks');
+
+  deepEqual(c1.portfolioCount, 2, 'c1 should have 2 stocks left');
+  ok(p4.name === 'Tech Stocks', 'p4 should be Tech Stocks');
+
+  var portfolios = c1.delPortfolios(['Non-Tech Stocks', 'Semi-Tech Stocks']);
+
+  deepEqual(c1.portfolioCount, 0, 'c1 should not have any stocks left ');
+  ok(portfolios[0].name === 'Non-Tech Stocks', 'the first portfolio in portfolios should be Non-Tech Stocks');
+  ok(portfolios[1].name === 'Semi-Tech Stocks', 'the second portfolio in portfolios should be Semi-Tech Stocks');
+});
+

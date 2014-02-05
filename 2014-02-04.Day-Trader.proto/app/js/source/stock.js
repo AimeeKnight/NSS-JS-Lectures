@@ -4,7 +4,6 @@ var Stock = (function(){
 
   'use strict';
 
-
   function Stock(symbol, shares, purchaseAmount){
     this._symbol = symbol;
     this._shares = shares;
@@ -25,14 +24,17 @@ var Stock = (function(){
     // define read only getter function ie instance.purchaseAmount
     get: function(){return this._purchaseAmount;}
   });
+
 /*
   Stock.prototype.getQuote = function(fn){
     var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+symbol+'&callback=?';
     $.getJSON(url, fn);
   };
 */
+
   // the instance calling value will provide value with a function
   // to call when the data comes back
+
   Stock.prototype.value = function(fn){
     var that = this;
     var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+that.symbol+'&callback=?';
