@@ -116,14 +116,14 @@ test('Client#addPortfolio', function() {
 
 test('Client#getPortfolios', function(){
   var c1 = new Client('Client1');
-  var c2 = new Client('Client2');
+  //var c2 = new Client('Client2');
   var p1 = new Portfolio('Tech Stocks');
   var p2 = new Portfolio('Non-Tech Stocks');
   var p3 = new Portfolio('Semi-Tech Stocks');
   c1.addPortfolio(p1);
-  c2.addPortfolio([p2, p3]);
+  c1.addPortfolio([p2, p3]);
   var p4 = c1.getPortfolios('Tech Stocks');
-  var portfolios = c2.getPortfolios(['Non-Tech Stocks', 'Semi-Tech Stocks']);
+  var portfolios = c1.getPortfolios(['Non-Tech Stocks', 'Semi-Tech Stocks']);
   
   ok(p4.name === 'Tech Stocks', 'p4 contains Tech Stocks');
   ok(portfolios[0].name === 'Non-Tech Stocks', 'the first portfoilio in portfolios contains Non Tech Stocks');

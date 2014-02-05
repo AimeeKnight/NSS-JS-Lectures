@@ -1,5 +1,4 @@
-/* jshint unused:false*/
-/*global Stock:false*/
+/* exported Portfolio */
 
 var Portfolio = (function(){
 

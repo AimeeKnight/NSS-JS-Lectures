@@ -1,5 +1,4 @@
-/* jshint unused:false*/
-/*global Stock:false*/
+/* exported Client */
 
 var Client = (function(){
 
@@ -58,11 +57,13 @@ var Client = (function(){
   };
 
   //// Private ////
+  /*
   function findPortfolio(name, portfolios){
     return _.find(portfolios, function(portfolio){
       return name === portfolio.name;
     });
   }
+  */
 
   return  Client;
 })();

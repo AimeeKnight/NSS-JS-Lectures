@@ -1,4 +1,4 @@
-/* jshint unused:false */
+/* exported Stock */
 
 var Stock = (function(){
 
