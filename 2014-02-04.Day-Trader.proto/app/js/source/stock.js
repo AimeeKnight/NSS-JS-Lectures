@@ -27,7 +27,6 @@ var Stock = (function(){
 
   // the instance calling value will provide value with a function
   // to call when the data comes back
-
   Stock.prototype.value = function(fn){
     var that = this;
     var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+that.symbol+'&callback=?';

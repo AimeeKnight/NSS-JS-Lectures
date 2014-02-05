@@ -38,9 +38,7 @@ var Portfolio = (function(){
       return _.contains(stocks, stock.symbol);
 
     });
-    if(typeof stockSymbols === 'string'){
-      output = output[0];
-    }
+    if(typeof stockSymbols === 'string'){ output = output[0];}
     return output;
   };
 

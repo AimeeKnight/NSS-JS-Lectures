@@ -18,6 +18,7 @@ var Client = (function(){
     this._portfolios = this._portfolios.concat(portfolios);
   };
 
+  /*
   Client.prototype.getPortfolios = function(portfolioNames){
     var output;
     if (typeof portfolioNames === 'string'){
@@ -29,17 +30,30 @@ var Client = (function(){
     }
     return output;
   };
+  */
+  
+  Client.prototype.getPortfolios = function(portfolioNames){
+    var portfolios = [].concat(portfolioNames);
 
+    var output = _.filter(this._portfolios, function(portfolio){
+      return _.contains(portfolios, portfolio.name);
+    });
+
+    // if getPortfolios is passd a string
+    // return portfolio object rather than array of portfolios
+    // since output will only have one element
+    if(typeof portfolioNames === 'string'){ output = output[0]; }
+    return output;
+  };
+  
   Client.prototype.delPortfolios = function(portfolioNames){
     var portfolios = [].concat(portfolioNames);
     
     var output = _.remove(this._portfolios, function(portfolio){
       return _.contains(portfolios, portfolio.name);
-
     });
-    if(typeof portfolioNames === 'string'){
-      output = output[0];
-    }
+
+    if(typeof portfolioNames === 'string'){ output = output[0]; }
     return output;
   };
 

@@ -23,16 +23,6 @@ test('Stock#new', function(){
   deepEqual(s1.purchaseAmount, 25, 's1 should be purchased at $25');
 });
 
-/*
-  asyncTest('Stock#currentPrice', function() {
-  var s1 = new Stock('AAPL', 50, 25)  ;
-  s1.getQuote(function(quote){
-    ok(quote.LastPrice > 0, 'AAPL quote should be greater than 0');
-    start();
-  });
-});
-*/
-
 asyncTest('Stock#value', function() {
   var s1 = new Stock('AAPL', 50, 25)  ;
   s1.value(function(val){
