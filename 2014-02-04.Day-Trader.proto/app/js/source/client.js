@@ -34,7 +34,7 @@ var Client = (function(){
   };
   */
 
-  Client.prototype.getPortfolios = function(portfolioNames){
+  Client.prototype.getPortfolio = function(portfolioNames){
     var portfolios = [].concat(portfolioNames);
 
     var output = _.filter(this._portfolios, function(portfolio){

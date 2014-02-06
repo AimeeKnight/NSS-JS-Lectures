@@ -1,7 +1,8 @@
-/* global ok, deepEqual, test, throws, asyncTest, start, stop, Portfolio, start, Client, Stock: false */
+/* global ok, deepEqual, test, throws, asyncTest, stop, Portfolio, start, Client, Stock: false */
 
 'use strict';
 
+////////// STOCK //////////
 test('Stock#new', function(){
   var s1 = new Stock('AAPL', 50, 25);
   s1.shares = 60;
@@ -34,6 +35,7 @@ asyncTest('Stock#value', function() {
   });
 });
 
+////////// PORTFOLIO //////////
 test('Portfolio#new', function() {
   var p1 = new Portfolio('Tech Stocks');
 
@@ -80,7 +82,6 @@ test('Portfolio#delStock', function() {
   var s2 = new Stock('AMZN', 150, 20);
   var s3 = new Stock('GOOG', 250, 30);
   var s4 = new Stock('MSFT', 250, 35);
-
   p1.addStock(s1);
   p1.addStock(s2);
   p1.addStock(s3);
@@ -98,6 +99,7 @@ test('Portfolio#delStock', function() {
   ok(stocks[1].symbol === 'MSFT', 'the second stock in stocks should be MSFT');
 });
 
+////////// CLIENT //////////
 test('Client#new', function() {
   var c1 = new Client('Client1');
 
@@ -117,16 +119,15 @@ test('Client#addPortfolio', function() {
   deepEqual(c1.portfolioCount, 3, 'c1 should have three stocks');
 });
 
-test('Client#getPortfolios', function(){
+test('Client#getPortfolio', function(){
   var c1 = new Client('Client1');
-  //var c2 = new Client('Client2');
   var p1 = new Portfolio('Tech Stocks');
   var p2 = new Portfolio('Non-Tech Stocks');
   var p3 = new Portfolio('Semi-Tech Stocks');
   c1.addPortfolio(p1);
   c1.addPortfolio([p2, p3]);
-  var p4 = c1.getPortfolios('Tech Stocks');
-  var portfolios = c1.getPortfolios(['Non-Tech Stocks', 'Semi-Tech Stocks']);
+  var p4 = c1.getPortfolio('Tech Stocks');
+  var portfolios = c1.getPortfolio(['Non-Tech Stocks', 'Semi-Tech Stocks']);
 
   ok(p4.name === 'Tech Stocks', 'p4 contains Tech Stocks');
   ok(portfolios[0].name === 'Non-Tech Stocks', 'the first portfoilio in portfolios contains Non Tech Stocks');
