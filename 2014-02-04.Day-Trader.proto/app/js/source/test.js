@@ -1,17 +1,19 @@
-/* global ok, deepEqual, test, throws, asyncTest, start, start, Portfolio, start, Client, Stock: false */
+/* global ok, deepEqual, test, throws, asyncTest, start, stop, Portfolio, start, Client, Stock: false */
 
 'use strict';
 
 test('Stock#new', function(){
   var s1 = new Stock('AAPL', 50, 25);
-  
+
   throws(function(){
     s1.symbol = 'xyz';
   },'should not be able to set symbol on s1');
 
+  /*
   throws(function(){
     s1.shares = 40;
   },'should not be able to set shares on s1');
+  */
 
   throws(function(){
     s1.purchaseAmount = 15;
@@ -48,7 +50,7 @@ test('Portfolio#addStock', function() {
   p1.addStock(s1);
   p1.addStock(s2);
   p1.addStock([s3, s4]);
-   
+
   deepEqual(p1.stockCount, 4, 'p1 should have four stocks in it');
 });
 
@@ -64,7 +66,7 @@ test('Portfolio#getStock', function(){
   p2.addStock([s3, s4]);
   var s5 = p1.getStock('AAPL');
   var stocks = p2.getStock(['GOOG', 'MSFT']);
-  
+
   ok(s5.symbol === 'AAPL', 's5 is APPL');
   ok(stocks[0].symbol === 'GOOG', 'the first stock in stocks is AMZN');
   ok(stocks[1].symbol === 'MSFT', 'the second stock in stocks is GOOG');
@@ -110,7 +112,7 @@ test('Client#addPortfolio', function() {
   var p3 = new Portfolio('Semi-Tech Stocks');
   c1.addPortfolio(p1);
   c1.addPortfolio([p2, p3]);
-   
+
   deepEqual(c1.portfolioCount, 3, 'c1 should have three stocks');
 });
 
@@ -124,7 +126,7 @@ test('Client#getPortfolios', function(){
   c1.addPortfolio([p2, p3]);
   var p4 = c1.getPortfolios('Tech Stocks');
   var portfolios = c1.getPortfolios(['Non-Tech Stocks', 'Semi-Tech Stocks']);
-  
+
   ok(p4.name === 'Tech Stocks', 'p4 contains Tech Stocks');
   ok(portfolios[0].name === 'Non-Tech Stocks', 'the first portfoilio in portfolios contains Non Tech Stocks');
   ok(portfolios[1].name === 'Semi-Tech Stocks', 'the first portfoilio in portfolios contains Non Tech Stocks');
@@ -152,3 +154,32 @@ test('Client#delPortfolio', function() {
   ok(portfolios[1].name === 'Semi-Tech Stocks', 'the second portfolio in portfolios should be Semi-Tech Stocks');
 });
 
+asyncTest('Client#purchaseStock', function(){
+  stop();
+  var c1 = new Client('Bob', 50000);
+  c1.purchaseStock('GOOG', 20, function(stock){
+    ok(stock instanceof Stock, 'stock should be a  Stock object');
+    deepEqual(stock.shares, 20, 'should be 100 shares');
+    deepEqual(stock.symbol, 'GOOG', 'should be GOOG');
+    ok(c1.cash < 50000, 'should have less than $50k');
+    start();
+  });
+  var c2 = new Client('Bob2', 50000);
+  c2.purchaseStock('AAP', 25000, function(stock){
+    ok(!stock, 'should not be a stock');
+    ok(c2.cash === 50000, 'should have 25000');
+    start();
+  });
+});
+
+asyncTest('Client#sellStock', function() {
+  var c1 = new Client('Bob', 100000);
+  var s1 = new Stock('AAPL', 50, 250);
+  c1.sellStock(s1, 10, function(stock){
+    ok(stock instanceof Stock, 'stock should be a  Stock object');
+    deepEqual(stock.shares, 40, 'should be 40 shares');
+    deepEqual(stock.symbol, 'AAPL', 'should be aapl');
+    ok(c1.cash > 100000, 'should have more than 50k');
+    start();
+  });
+});

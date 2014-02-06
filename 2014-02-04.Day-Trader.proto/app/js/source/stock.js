@@ -9,15 +9,16 @@ var Stock = (function(){
     this._shares = shares;
     this._purchaseAmount = purchaseAmount;
   }
-
+    
   Object.defineProperty(Stock.prototype, 'symbol', {
     // define read only getter function ie instance.symbol
     get: function(){return this._symbol;}
   });
-  
+   
   Object.defineProperty(Stock.prototype, 'shares', {
     // define read only getter function ie instance.shares
-    get: function(){return this._shares;}
+    get: function(){return this._shares;},
+    set: function(shares){this._shares = shares;}
   });
 
   Object.defineProperty(Stock.prototype, 'purchaseAmount', {
