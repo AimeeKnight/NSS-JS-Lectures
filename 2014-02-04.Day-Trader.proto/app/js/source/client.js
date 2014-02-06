@@ -10,6 +10,7 @@ var Client = (function(){
     this._portfolios = [];
     this.cash = cash;
   }
+
   Object.defineProperty(Client.prototype, 'portfolioCount', {
     // define read only getter function ie instance.portfolioCount
     get: function(){return this._portfolios.length;}
@@ -69,7 +70,8 @@ var Client = (function(){
         stock = new Stock(symbol, shares, quote.LastPrice);
         that.cash -= total;
       }
-
+      // call the function our API user will be passing in to purchaseStock
+      // passing in the stock created when the request comes back 
       innerCallback(stock);
     });
   };
@@ -83,7 +85,8 @@ var Client = (function(){
         that.cash += total;
         stock.shares -= amount;
       }
-
+      // call the function our API user will be passing in to purchaseStock
+      // passing in the stock created when the request comes back 
       innerCallback(stock);
     });
   };

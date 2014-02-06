@@ -4,6 +4,7 @@
 
 test('Stock#new', function(){
   var s1 = new Stock('AAPL', 50, 25);
+  s1.shares = 60;
 
   throws(function(){
     s1.symbol = 'xyz';
@@ -21,7 +22,7 @@ test('Stock#new', function(){
 
   ok(s1 instanceof Stock, 's1 should be an instance of Stock');
   deepEqual(s1.symbol, 'AAPL', 's1 should be apple');
-  deepEqual(s1.shares, 50, 's1 should have 50 shares');
+  deepEqual(s1.shares, 60, 's1 should have 60 shares');
   deepEqual(s1.purchaseAmount, 25, 's1 should be purchased at $25');
 });
 
