@@ -89,12 +89,12 @@ test('Portfolio#delStock', function() {
 
   var s5 = p1.delStock('AAPL');
 
-  deepEqual(p1._stocks.length, 3, 'p1 should have 3 stocks left');
+  deepEqual(p1.stockCount, 3, 'p1 should have 3 stocks left');
   ok(s5.symbol === 'AAPL', 's5 should be AAPL');
 
   var stocks = p1.delStock(['GOOG', 'MSFT']);
 
-  deepEqual(p1._stocks.length, 1, 'p1 should only have one stock left');
+  deepEqual(p1.stockCount, 1, 'p1 should only have one stock left');
   ok(stocks[0].symbol === 'GOOG', 'the first stock in stocks should be GOOGLE');
   ok(stocks[1].symbol === 'MSFT', 'the second stock in stocks should be MSFT');
 });
