@@ -9,11 +9,12 @@ var Cart = (function(){
   }
 
   Object.defineProperty(Cart.prototype, 'total', {
-    get: function (){
-      var sum = _.reduce(this.products, function(total, product){
-        return total + product.price;
+    get: function(){
+      var sum =  _.reduce(this.products, function(accumulator, product){
+        return accumulator + product.price;
       }, 0);
-      return sum;
+
+      return Math.round(sum) || 0;
     }
   });
 
@@ -35,6 +36,19 @@ var Cart = (function(){
     }
   };
 
+  /*
+  Cart.prototype.remove = function(name, quantity){
+    var removed = _.remove(this.products, function(product){
+      return product.name === name;
+    });
+
+    for(var i = 0; i < quantity; i++){
+      removed.pop();
+    }
+
+    this.products = this.products.concat(removed);
+  };
+  */
 
   return Cart;
 })();

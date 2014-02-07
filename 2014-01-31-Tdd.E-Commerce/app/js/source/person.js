@@ -12,8 +12,18 @@ var Person = (function(){
   }
 
   Person.prototype.checkOut = function(){
-    this.cart.products = [];
-    this.cash -= this.cart.total;
+    var receipt;
+
+    if(this.cash - this.cart.total >= 0){
+      receipt = _.map(this.cart.products, function(product){
+        return product.name;
+      });
+      receipt = receipt.join(', ');
+      this.cash -= this.cart.total;
+      this.cart.products = [];
+    }
+
+    return receipt;
   };
 
   return Person;
