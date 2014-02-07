@@ -18,7 +18,7 @@ test('Cart#checkOut', function(){
 
   r1.cart.add(p1, 2);
   r1.checkOut();
-  
+
   ok(r1.cash, 80, 'r1 will have $80');
   deepEqual(r1.cart.totalProducts, 0, 'r1 will not have have any products in their cart');
 });
@@ -34,17 +34,18 @@ test('Cart#new', function(){
 test('Cart#add', function(){
   var r1 = new Person('Bob', 100);
   var p1 = new Product('CD', 10);
-  
+
   r1.cart.add(p1, 2);
 
   deepEqual(r1.cart.products[0].name, 'CD', 'A CD was added to the cart');
+  deepEqual(r1.cart.products[1].name, 'CD', 'A CD was added to the cart');
   deepEqual(r1.cart.products.length, 2, 'r1 should have two product in it');
 });
 
 test('Cart#remove', function(){
   var r1 = new Person('Bob', 100);
   var p1 = new Product('CD', 10);
-  
+
   r1.cart.add(p1, 2);
   r1.cart.remove(p1, 1);
 
@@ -58,7 +59,7 @@ test('Cart#total', function(){
   var p1 = new Product('CD', 10);
 
   r1.cart.add(p1, 2);
-  
+
   deepEqual(r1.cart.total, 20, 'The total in the cart should be $20');
 });
 
