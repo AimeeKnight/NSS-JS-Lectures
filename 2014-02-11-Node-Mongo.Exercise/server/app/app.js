@@ -14,6 +14,8 @@ app.use(app.router);
 
 app.get('/', home.index);
 app.post('/exercises', Exercise.create);
+app.get('/exercises', Exercise.index);
+app.get('/exercises/:name', Exercise.queryName);
 
 var server = require('http').createServer(app);
 server.listen(app.get('port'), function(){
