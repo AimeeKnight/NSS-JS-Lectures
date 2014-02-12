@@ -23,6 +23,7 @@ app.use(app.router);
 /* --- horizontal --- */
 app.get('/', d, home.index);
 app.post('/movies', d, movies.create);
+app.get('/movies', d, movies.index);
 /* --- pipeline ends   */
 
 var server = require('http').createServer(app);

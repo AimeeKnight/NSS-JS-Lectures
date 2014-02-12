@@ -3,7 +3,6 @@
 var Movie = require('../models/movie');
 
 exports.create = function(req, res){
-  console.log('create function');
   var db       = req.app.locals.db;
   var movies   = db.collection('movies');
   var movie;
@@ -25,3 +24,10 @@ exports.create = function(req, res){
   });
 };
 
+exports.index = function(req, res){
+  var db       = req.app.locals.db;
+
+  db.collection('movies').find().toArray(function(err, movies){
+    res.send({movies:movies});
+  });
+};

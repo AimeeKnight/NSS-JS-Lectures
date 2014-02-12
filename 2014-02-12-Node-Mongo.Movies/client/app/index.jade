@@ -50,8 +50,23 @@ html(class='no-js', lang='en')
               .small-3.columns
                 button.small.radius#save-movie Save Movie
 
-      script(src='/js/vendor/jquery.js')
-      script(src='/js/vendor/foundation.js')
-      script(src='/js/vendor/lodash.js')
-      script(src='/js/source/main.js')
+    .row
+      .small-12.columns
+        table#movies
+          thead
+            tr#head
+              th Name
+              th Rating
+              th Length
+              th Year
+              th Studio
+              th Director
+              th Actors
+              th Poster
+          tbody
+
+    script(src='/js/vendor/jquery.js')
+    script(src='/js/vendor/foundation.js')
+    script(src='/js/vendor/lodash.js')
+    script(src='/js/source/main.js')
 
