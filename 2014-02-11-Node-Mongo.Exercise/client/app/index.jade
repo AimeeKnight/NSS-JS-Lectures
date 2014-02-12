@@ -27,23 +27,26 @@ html(class='no-js', lang='en')
       .small-4.columns
         .row
           .small-12.columns
-            button#new-exercise New Exercise
+            select#drop-down
+              option(value="pick") Pick One
+          .small-12.columns
+            button#filter-exercise Filter Exercise
         .row
           .small-12.columns
             label Name
-            input#name
+            input#name(placeholder="name")
         .row
           .small-12.columns
             label Time
-            input#time
+            input#time(placeholder="time")
         .row
           .small-12.columns
             label Calories
-            input#cals
+            input#cals(placeholder="calories")
         .row
           .small-12.columns
             label Date
-            input#date
+            input#date(placeholder="date")
         .row
           .small-12.columns
             button#create-exercise Create Exercise

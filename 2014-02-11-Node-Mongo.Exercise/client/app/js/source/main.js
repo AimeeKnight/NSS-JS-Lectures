@@ -8,6 +8,8 @@
     $(document).foundation();
     getExercises();
     $('#create-exercise').click(createExercise);
+    $('#create-exercise').click(createExercise);
+    $('#filter-exercise').click(filterExercise);
   }
 
   function getExercises(){
@@ -17,26 +19,36 @@
   }
 
   function displayExercises(data){
-    console.log(data);
-    _.forEach(data.exercises, function(x){
-      var name = x.name;
-      var time = x.time;
-      var calories = x.calories;
-      var date = x.date;
+    for(var i = 0; i < data.exercises.length; i++){
+      var $name = $('<td class="name"></td>');
+      var $time = $('<td>');
+      var $cals = $('<td>');
+      var $date = $('<td>');
 
-      console.log(name);
-      console.log(time);
-      console.log(calories);
-      console.log(date);
+      $name.text(data.exercises[i].name);
+      $time.text(data.exercises[i].time);
+      $cals.text(data.exercises[i].calories);
+      $date.text(data.exercises[i].date);
 
-      var $tr = $('<tr></tr>');
-      var $tdName = $('<td></td>').text(name);
-      var $tdTime = $('<td></td>').text(time);
-      var $tdCalories = $('<td></td>').text(calories);
-      var $tdDate = $('<td></td>').text(date);
+      var $row = $('<tr class="'+data.exercises[i].name+'"></tr>');
 
-      $tr.append($tdName, $tdTime, $tdCalories, $tdDate);
-      $('#exercises > tbody').prepend($tr);
+      $row.append($name, $time, $cals, $date);
+      $('#exercises > tbody').prepend($row);
+    }
+    populateDropDown();
+  }
+
+  function populateDropDown(){
+    var $names = $('.name');
+    var nameString = _.map($names, function(name){
+      return $(name).text();
+    });
+
+    var uniqueNames = _.uniq(nameString);
+    _.forEach(uniqueNames, function(name){
+      var $option = $('<option>');
+      $option.text(name);
+      $('#drop-down').append($option);
     });
   }
 
@@ -58,6 +70,15 @@
   function exerciseCreated(){
     $('#exercises > tbody').empty();
     getExercises();
+  }
+
+  function filterExercise(){
+    var selected = $('#drop-down option:selected').text();
+    $('tr').each(function(index, element){
+      if (!$(element).hasClass(selected)){
+        $(element).hide();
+      }
+    });
   }
 
 })();
