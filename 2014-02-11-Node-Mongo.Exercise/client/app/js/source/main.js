@@ -75,6 +75,7 @@
   function filterExercise(){
     var selected = $('#drop-down option:selected').text();
     $('tr').each(function(index, element){
+      $(element).show();
       if (!$(element).hasClass(selected)){
         $(element).hide();
       }
