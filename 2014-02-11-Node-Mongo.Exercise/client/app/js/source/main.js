@@ -39,6 +39,7 @@
   }
 
   function populateDropDown(){
+    $('#drop-down').empty();
     var $names = $('.name');
     var nameString = _.map($names, function(name){
       return $(name).text();
