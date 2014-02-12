@@ -8,7 +8,6 @@
     $(document).foundation();
     getExercises();
     $('#create-exercise').click(createExercise);
-    $('#create-exercise').click(createExercise);
     $('#filter-exercise').click(filterExercise);
   }
 
@@ -19,6 +18,7 @@
   }
 
   function displayExercises(data){
+    $('#exercises > tbody').empty();
     for(var i = 0; i < data.exercises.length; i++){
       var $name = $('<td class="name"></td>');
       var $time = $('<td>');
@@ -46,7 +46,7 @@
 
     var uniqueNames = _.uniq(nameString);
     _.forEach(uniqueNames, function(name){
-      var $option = $('<option>');
+      var $option = $('<option value="'+name+'"></option>');
       $option.text(name);
       $('#drop-down').append($option);
     });
@@ -73,12 +73,14 @@
   }
 
   function filterExercise(){
+    var $trHead = $('#head');
     var selected = $('#drop-down option:selected').text();
     $('tr').each(function(index, element){
       $(element).show();
       if (!$(element).hasClass(selected)){
         $(element).hide();
       }
+      $trHead.show();
     });
   }
 
