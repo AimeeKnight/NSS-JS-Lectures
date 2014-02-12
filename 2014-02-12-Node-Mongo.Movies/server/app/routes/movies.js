@@ -8,18 +8,17 @@ exports.create = function(req, res){
   var movies   = db.collection('movies');
   var movie;
 
-  var name     = req.body.name;
-  var rating   = req.body.rating;
-  var length   = req.body.length;
-  var year     = req.body.year;
-  var studio   = req.body.studio;
-  var actors   = req.body.actors;
-  var director = req.body.director;
-  var poster   = req.body.poster;
+  //var name     = req.body.name;
+  //var rating   = req.body.rating;
+  //var length   = req.body.length;
+  //var year     = req.body.year;
+  //var studio   = req.body.studio;
+  //var actors   = req.body.actors;
+  //var director = req.body.director;
+  //var poster   = req.body.poster;
 
-  actors = actors.split(',');
-
-  movie = new Movie(name, rating, length, year, studio, actors, director, poster);
+  //movie = new Movie(name, rating, length, year, studio, actors, director, poster);
+  movie = new Movie(req.body);
 
   movies.insert(movie, function(err, records){
     res.send(records[0]);
