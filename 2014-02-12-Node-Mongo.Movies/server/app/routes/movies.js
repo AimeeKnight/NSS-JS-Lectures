@@ -31,3 +31,15 @@ exports.index = function(req, res){
     res.send({movies:movies});
   });
 };
+
+exports.queryName = function(req, res){
+  var db       = req.app.locals.db;
+  var query = {};
+  query.name = req.params.name;
+  console.log('query');
+  console.log(query);
+
+  db.collection('movies').find(query).toArray(function(err, movies){
+    res.send({movies:movies});
+  });
+};

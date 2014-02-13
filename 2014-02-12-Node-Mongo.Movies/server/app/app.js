@@ -24,6 +24,7 @@ app.use(app.router);
 app.get('/', d, home.index);
 app.post('/movies', d, movies.create);
 app.get('/movies', d, movies.index);
+app.get('/movies/:name', movies.queryName);
 /* --- pipeline ends   */
 
 var server = require('http').createServer(app);

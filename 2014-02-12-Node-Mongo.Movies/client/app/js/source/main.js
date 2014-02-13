@@ -8,6 +8,7 @@
     $(document).foundation();
     getMovies();
     $('#movie').submit(submitMovie);
+    $('tbody').on('click', 'td',  queryMovies);
   }
 
   function submitMovie(event){
@@ -33,7 +34,7 @@
   function displayMovies(data){
     for (var i = 0; i < data.movies.length; i++){
       var $name = $('<td>');
-      var $rating = $('<td>');
+      var $rating = $('<td class="rating"></td>');
       var $length = $('<td>');
       var $year = $('<td>');
       var $studio = $('<td>');
@@ -46,17 +47,29 @@
       $length.text(data.movies[i].length);
       $year.text(data.movies[i].year);
       $studio.text(data.movies[i].studio);
-      $actors.text(data.movies[i].actors);
-      //$actors.text(data.movies[i].actors.join(', '));
+      $actors.text(data.movies[i].actors.join(', '));
       $director.text(data.movies[i].director);
 
       var $posterDiv = $('<div class="img box-shadow"></div>').css('background-image', 'url('+data.movies[i].poster+')');
       $poster.append($posterDiv);
 
-      var $row = $('<tr class="'+data.movies[i].name+'"></tr>');
-      $row.append($name, $rating, $length, $year, $studio, $actors, $director, $poster);
+      var $row = $('<tr id="'+data.movies[i].name+'"></tr>');
+      $row.append($name, $rating, $length, $year, $studio, $director, $actors, $poster);
       $('#movies > tbody').prepend($row);
     }
+  }
+  
+  function queryMovies(){
+    var movie = $(this).text();
+    console.log(movie);
+    var url = window.location.origin.replace(/3000/, '4000');
+    url += '/movies/';
+    url += movie;
+    $.getJSON(url, displayMovie);
+  }
+
+  function displayMovie(data){
+    displayMovies(data);
   }
 
 })();
