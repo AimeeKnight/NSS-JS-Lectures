@@ -1,6 +1,7 @@
 'use strict';
 
 var Movie = require('../models/movie');
+var mongodb = require('mongodb');
 
 exports.create = function(req, res){
   var db       = req.app.locals.db;
@@ -32,10 +33,41 @@ exports.index = function(req, res){
   });
 };
 
+exports.query = function(req, res){
+  console.log(req.query);
+  var db = req.app.locals.db;
+
+  db.collection('movies').find(req.query).toArray(function(err, movies){
+    res.send({movies:movies});
+  });
+};
+
+exports.destroy = function(req, res){
+  var db = req.app.locals.db;
+  var id = new mongodb.ObjectID(req.params.id);
+  var movies = db.collection('movies');
+
+  movies.remove({_id: id}, function(err, count){
+    res.send({count: count, id: req.params.id});
+  });
+};
+
 exports.queryName = function(req, res){
   var db       = req.app.locals.db;
   var query = {};
   query.name = req.params.name;
+  console.log('query');
+  console.log(query);
+
+  db.collection('movies').find(query).toArray(function(err, movies){
+    res.send({movies:movies});
+  });
+};
+
+exports.queryRating = function(req, res){
+  var db       = req.app.locals.db;
+  var query = {};
+  query.rating = req.params.rating;
   console.log('query');
   console.log(query);
 

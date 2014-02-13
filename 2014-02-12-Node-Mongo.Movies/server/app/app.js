@@ -24,7 +24,10 @@ app.use(app.router);
 app.get('/', d, home.index);
 app.post('/movies', d, movies.create);
 app.get('/movies', d, movies.index);
-app.get('/movies/:name', movies.queryName);
+app.get('/movies/query', d, movies.query);
+app.delete('/movies/:id', d, movies.destroy);
+//app.get('/movies/:name', movies.queryName);
+app.get('/movies/:rating', movies.queryRating);
 /* --- pipeline ends   */
 
 var server = require('http').createServer(app);
