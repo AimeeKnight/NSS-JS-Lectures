@@ -39,7 +39,7 @@
     console.log(data);
     $('#movies > tbody').empty();
     for (var i = 0; i < data.movies.length; i++){
-      var $name = $('<td>').addClass('name');
+      var $name = $('<td class="name"></td>');
       var $rating = $('<td class="rating"></td>');
       var $length = $('<td class="length"></td>');
       var $year = $('<td class="year"></td>');
@@ -56,6 +56,7 @@
       $year.text(data.movies[i].year);
       $studio.text(data.movies[i].studio);
       $actors.text(data.movies[i].actors.join(', '));
+      //$actors.text(data.movies[i].actors);
       $director.text(data.movies[i].director);
 
       var $posterDiv = $('<div class="img box-shadow"></div>').css('background-image', 'url('+data.movies[i].poster+')');
@@ -67,7 +68,7 @@
     }
   }
 
-// ---------- SORT ---------- //
+// ---------- READ ---------- //
   function queryMovies(){
     var url = window.location.origin.replace(/3000/, '4000');
     url += '/movies';
@@ -85,7 +86,7 @@
     var length = $row.find('.length').text();
     var year = $row.find('.year').text();
     var studio = $row.find('.studio').text();
-    var actors = $row.find('.actors').text().split(', ');
+    var actors = $row.find('.actors').text().split(',');
     var director = $row.find('.director').text();
 
     var posterUrl = $row.find('.img').css('background-image');
@@ -108,15 +109,19 @@
     var url = window.location.origin.replace(/3000/, '4000') + '/movies/';
     url += rowId;
     var type = 'PUT';
-    var success = function (data){
-      console.log(data);
-    };
+    var success = changeMovie;
 
     $.ajax({url:url, type:type, data:data, success:success});
     event.preventDefault();
   }
 
-// ---------- DELETE ---------- //
+  function changeMovie(data){
+    if (data.deleted === 1){
+      console.log(data);
+    }
+  }
+
+// ---------- DESTROY ---------- //
   function deleteMovie(event){
     var rowId = $(this).closest('tr').data('id');
     var url = window.location.origin.replace(/3000/, '4000') + '/movies/';

@@ -3,6 +3,7 @@
 var Movie = require('../models/movie');
 var mongodb = require('mongodb');
 
+// ---------- CREATE ----------//
 exports.create = function(req, res){
   var db       = req.app.locals.db;
   var movies   = db.collection('movies');
@@ -15,6 +16,7 @@ exports.create = function(req, res){
   });
 };
 
+// ---------- READ ----------//
 exports.index = function(req, res){
   var db       = req.app.locals.db;
 
@@ -23,6 +25,7 @@ exports.index = function(req, res){
   });
 };
 
+// ---------- READ ----------//
 exports.query = function(req, res){
   console.log(req.query);
   var db = req.app.locals.db;
@@ -32,21 +35,20 @@ exports.query = function(req, res){
   });
 };
 
+// ---------- UPDATE ----------//
 exports.update = function(req, res){
   var db = req.app.locals.db;
   var movies = db.collection('movies');
-  //var id = req.params.id;
-  var id = new mongodb.ObjectID(req.params.id);
-  var body = req.body;
-  console.log('Updating body: ' + id);
-  console.log(JSON.stringify(body));
 
-  movies.update({_id: id}, body, function(err, result) {
-    console.log('' + result + ' document(s) updated');
-    res.send({ok:true});
+  var body = new Movie(req.body);
+  var id = new mongodb.ObjectID(req.params.id);
+
+  movies.update({_id: id}, body, function(err, count) {
+    res.send({updated:count});
   });
 };
 
+// ---------- DESTROY ----------//
 exports.destroy = function(req, res){
   var db = req.app.locals.db;
   var id = new mongodb.ObjectID(req.params.id);
