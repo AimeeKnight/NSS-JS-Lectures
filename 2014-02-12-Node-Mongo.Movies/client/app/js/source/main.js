@@ -21,13 +21,12 @@
 
 // ---------- CREATE ---------- //
   function submitMovie(event){
-    alert('submit');
     var data = $('#movie').serialize();
     var url = window.location.origin.replace(/3000/, '4000') + '/movies';
     var type = 'POST';
     var success = newMovie;
 
-    $.ajax({url:url, type:type, data:data,  success:success});
+    $.ajax({url:url, type:type, data:JSON.stringify(data),  success:success});
     event.preventDefault();
   }
 
@@ -86,7 +85,7 @@
     var length = $row.find('.length').text();
     var year = $row.find('.year').text();
     var studio = $row.find('.studio').text();
-    var actors = $row.find('.actors').text();
+    var actors = $row.find('.actors').text().split(', ');
     var director = $row.find('.director').text();
 
     var posterUrl = $row.find('.img').css('background-image');
@@ -108,14 +107,12 @@
     var rowId = $('input[name=id]').val();
     var url = window.location.origin.replace(/3000/, '4000') + '/movies/';
     url += rowId;
-    console.log(url);
-    var dataType = 'jsonp';
     var type = 'PUT';
     var success = function (data){
       console.log(data);
     };
 
-    $.ajax({url:url, type:type, dataType:dataType, data:data, success:success});
+    $.ajax({url:url, type:type, data:data, success:success});
     event.preventDefault();
   }
 
