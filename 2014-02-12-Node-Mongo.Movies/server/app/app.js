@@ -22,9 +22,8 @@ app.use(app.router);
 
 /* --- horizontal --- */
 app.get('/', d, home.index);
-
-app.post('/movies', d, movies.create);
 app.get('/movies', d, movies.index);
+app.post('/movies', d, movies.create);
 app.get('/movies/query', d, movies.query);
 app.delete('/movies/:id', d, movies.destroy);
 app.put('/movies/:id', d, movies.update);

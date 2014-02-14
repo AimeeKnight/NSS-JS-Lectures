@@ -26,7 +26,7 @@
     var type = 'POST';
     var success = newMovie;
 
-    $.ajax({url:url, type:type, data:JSON.stringify(data),  success:success});
+    $.ajax({url:url, type:type, data:data,  success:success});
     event.preventDefault();
   }
 
@@ -56,7 +56,6 @@
       $year.text(data.movies[i].year);
       $studio.text(data.movies[i].studio);
       $actors.text(data.movies[i].actors.join(', '));
-      //$actors.text(data.movies[i].actors);
       $director.text(data.movies[i].director);
 
       var $posterDiv = $('<div class="img box-shadow"></div>').css('background-image', 'url('+data.movies[i].poster+')');
@@ -86,7 +85,7 @@
     var length = $row.find('.length').text();
     var year = $row.find('.year').text();
     var studio = $row.find('.studio').text();
-    var actors = $row.find('.actors').text().split(',');
+    var actors = $row.find('.actors').text();
     var director = $row.find('.director').text();
 
     var posterUrl = $row.find('.img').css('background-image');

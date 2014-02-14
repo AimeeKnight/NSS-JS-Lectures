@@ -7,9 +7,11 @@ var mongodb = require('mongodb');
 exports.create = function(req, res){
   var db       = req.app.locals.db;
   var movies   = db.collection('movies');
+  console.log('called');
   var movie;
 
   movie = new Movie(req.body);
+  console.log(movie);
 
   movies.insert(movie, function(err, records){
     res.send(records[0]);
@@ -42,8 +44,9 @@ exports.update = function(req, res){
 
   var body = new Movie(req.body);
   var id = new mongodb.ObjectID(req.params.id);
+  var query = {_id : id};
 
-  movies.update({_id: id}, body, function(err, count) {
+  movies.update(query, body, function(err, count) {
     res.send({updated:count});
   });
 };
