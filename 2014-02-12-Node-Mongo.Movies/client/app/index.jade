@@ -43,12 +43,16 @@ html(class='no-js', lang='en')
               .small-4.columns 
                 label Director
                 input(type="text", placeholder="director", name="director")#director
+
+                input(type="hidden", name="id")#id
             .row
-              .small-8.columns 
+              .small-6.columns 
                 label Poster
                 input(type="text", placeholder="poster url", name="poster")#poster
-              .small-4.columns
+              .small-3.columns
                 button.small.radius#save-movie Save Movie
+              .small-3.columns
+                button.small.radius#update-movie Update Movie
 
     .row
       .small-12.columns

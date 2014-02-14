@@ -8,16 +8,6 @@ exports.create = function(req, res){
   var movies   = db.collection('movies');
   var movie;
 
-  //var name     = req.body.name;
-  //var rating   = req.body.rating;
-  //var length   = req.body.length;
-  //var year     = req.body.year;
-  //var studio   = req.body.studio;
-  //var actors   = req.body.actors;
-  //var director = req.body.director;
-  //var poster   = req.body.poster;
-
-  //movie = new Movie(name, rating, length, year, studio, actors, director, poster);
   movie = new Movie(req.body);
 
   movies.insert(movie, function(err, records){
@@ -53,7 +43,7 @@ exports.update = function(req, res){
 
   movies.update({_id: id}, body, function(err, result) {
     console.log('' + result + ' document(s) updated');
-    res.send(body);
+    res.send({ok:true});
   });
 };
 
@@ -68,26 +58,3 @@ exports.destroy = function(req, res){
   });
 };
 
-exports.queryName = function(req, res){
-  var db       = req.app.locals.db;
-  var query = {};
-  query.name = req.params.name;
-  console.log('query');
-  console.log(query);
-
-  db.collection('movies').find(query).toArray(function(err, movies){
-    res.send({movies:movies});
-  });
-};
-
-exports.queryRating = function(req, res){
-  var db       = req.app.locals.db;
-  var query = {};
-  query.rating = req.params.rating;
-  console.log('query');
-  console.log(query);
-
-  db.collection('movies').find(query).toArray(function(err, movies){
-    res.send({movies:movies});
-  });
-};

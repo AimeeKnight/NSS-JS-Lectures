@@ -7,16 +7,22 @@
   function initialize(){
     $(document).foundation();
     getMovies();
-    $('#movie').submit(submitMovie);
-    $('#updateMovie').submit(updateMovie);
-    $('tbody').on('click', 'td',  queryMovies);
+    $('#save-movie').click(submitMovie);
+    $('#update-movie').click(updateMovie);
+    $('tbody').on('click', '.rating',  queryMovies);
     $('tbody').on('click', '.deleteBtn',  deleteMovie);
     $('tbody').on('click', '.updateBtn',  editMovie);
-    //$('tbody').on('click', 'td',  queryRatings);
   }
 
+  function getMovies(){
+    var url = window.location.origin.replace(/3000/, '4000') + '/movies';
+    $.getJSON(url, displayMovies);
+  }
+
+// ---------- CREATE ---------- //
   function submitMovie(event){
-    var data = $(this).serialize();
+    alert('submit');
+    var data = $('#movie').serialize();
     var url = window.location.origin.replace(/3000/, '4000') + '/movies';
     var type = 'POST';
     var success = newMovie;
@@ -28,11 +34,6 @@
   function newMovie(){
     $('#movies input').val('');
     getMovies();
-  }
-
-  function getMovies(){
-    var url = window.location.origin.replace(/3000/, '4000') + '/movies';
-    $.getJSON(url, displayMovies);
   }
 
   function displayMovies(data){
@@ -66,20 +67,19 @@
       $('#movies > tbody').prepend($row);
     }
   }
-  
+
+// ---------- SORT ---------- //
   function queryMovies(){
-    //var movie = $(this).text();
-    //var key = $(this).attr('class');
     var url = window.location.origin.replace(/3000/, '4000');
     url += '/movies';
     url += '/query?'+$(this).attr('class')+'='+$(this).text();
-    //url += '/query?'+key+'='+movie;
     $.getJSON(url, displayMovies);
   }
-  
+
+// ---------- UPDATE ---------- //
   function editMovie(){
-    $('#movie').attr('id','updateMovie');
-    $('#movie').text('Update Movie');
+    $('#save-movie').hide();
+    var rowId = $(this).closest('tr').data('id');
     var $row = $(this).closest('tr');
     var name = $row.find('.name').text();
     var rating = $row.find('.rating').text();
@@ -100,22 +100,26 @@
     $('input[name=actors]').val(actors);
     $('input[name=director]').val(director);
     $('input[name=poster]').val(posterUrl);
+    $('input[name=id]').val(rowId);
   }
 
   function updateMovie(){
-    var rowId = $(this).closest('tr').data('id');
+    var data = $('#movie').serialize();
+    var rowId = $('input[name=id]').val();
     var url = window.location.origin.replace(/3000/, '4000') + '/movies/';
     url += rowId;
-    var type = 'UPDATE';
-    var data = $(this).serialize();
+    console.log(url);
+    var dataType = 'jsonp';
+    var type = 'PUT';
     var success = function (data){
       console.log(data);
     };
 
-    $.ajax({url:url, type:type, data:data, success:success});
+    $.ajax({url:url, type:type, dataType:dataType, data:data, success:success});
     event.preventDefault();
   }
 
+// ---------- DELETE ---------- //
   function deleteMovie(event){
     var rowId = $(this).closest('tr').data('id');
     var url = window.location.origin.replace(/3000/, '4000') + '/movies/';
@@ -130,22 +134,9 @@
 
   function removeMovie(data){
     if (data.deleted === 1){
-      // remove the movies from the dom by 
-      // matching data.id to the dom elements with a matching data attribute
-      $('.poster[data-id]='+data.id+'').remove();
+      $('tr[data-id="'+data.id+'"]').remove();
     }
   }
-
-  /*
-  function queryRatings(){
-    var rating = $(this).text();
-    console.log(rating);
-    var url = window.location.origin.replace(/3000/, '4000');
-    url += '/movies/';
-    url += rating;
-    $.getJSON(url, displayMovies);
-  }
-  */
 
 })();
 
