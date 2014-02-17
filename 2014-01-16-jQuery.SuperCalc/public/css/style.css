@@ -1,0 +1,105 @@
+@import url(http://fonts.googleapis.com/css?family=Exo+2:400,800,900);
+*{font-family: 'Exo 2';font-weight:800;}
+#main{background: url(grey_wash_wall.png);width:400px;margin: 0 auto;padding: 10px 20px;border-radius: 20px;border: 8px solid #7f8c8d;}
+h1 {color: #34495e;text-align: center;font-weight:900;}
+li {list-style-type: none;}
+#buttons {
+  margin: 0 auto;
+  text-align: center;
+}
+.number {
+  margin: 0 auto;
+  background-color: #1abc9c;
+  color: #ecf0f1;
+  display: inline-block;
+  border: 4px solid #ecf0f1;
+  border-radius: 100%;
+  width: 35px;
+  height: 35px;
+  padding: 15px;
+  text-align: center;
+  margin: 5px 20px;
+  line-height: 35px
+}
+
+#neg {
+  margin: 0 auto;
+  background-color: #1abc9c;
+  color: #ecf0f1;
+  display: inline-block;
+  border: 4px solid #ecf0f1;
+  border-radius: 100%;
+  width: 35px;
+  height: 35px;
+  padding: 15px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 5px 20px;
+  line-height: 35px
+}
+
+#push {
+  background-color: #44a0de;
+  color: #ecf0f1;
+  display: inline-block;
+  border: 4px solid #ecf0f1;
+  border-radius: 20px;
+  padding: 15px 27px;
+  margin: 10px;
+  width: 90px;
+  height: 25px;
+  text-align: center;
+}
+
+.operator {
+  background-color: #9b59b6;
+  color: #ecf0f1;
+  display: inline-block;
+  border: 4px solid #ecf0f1;
+  border-radius: 20px;
+  padding: 15px;
+  margin: 10px;
+  width: 50px;
+  height: 25px;
+  text-align: center;
+}
+
+#clear {
+  background-color: #44a0de;
+  color: #ecf0f1;
+  display: inline-block;
+  border-radius: 20px;
+  border: 4px solid #ecf0f1;
+  padding: 15px 27px;
+  margin: 10px;
+  width: 90px;
+  height: 25px;
+  text-align: center;
+}
+
+#answer {
+  margin: 10px auto;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  width: 370px;
+  height: 30px;
+  padding: 10px;
+  border: 6px solid #7f8c8d;
+  border-radius: 10px;
+  text-align: right;
+  vertical-align: middle;
+}
+#queue{
+  margin: 10px auto;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  width: 370px;
+  height: 70px;
+  padding: 10px;
+  border: 6px solid #7f8c8d;
+  border-radius: 10px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+

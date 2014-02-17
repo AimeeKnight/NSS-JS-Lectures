@@ -1,0 +1,41 @@
+@import url(http://fonts.googleapis.com/css?family=Exo+2);
+@import url(http://fonts.googleapis.com/css?family=Lobster);
+
+body {
+  background: url(/images/tile.png) repeat-x;
+}
+
+p {
+  font-family: 'Exo 2';
+}
+
+header h1 {
+  margin-left: 20px;
+  font-family: 'Lobster';
+}
+
+header {
+  color: olive;
+  border: 2px solid olive;
+}
+
+img {
+  width: 10%;
+  margin-left: 20px;
+}
+
+a {
+  text-decoration: none;
+  letter-spacing: 2px;
+  border: 2px solid olive;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+a:hover {
+  background-color: grey;
+}
+
+nav {
+  margin: 25px;
+}

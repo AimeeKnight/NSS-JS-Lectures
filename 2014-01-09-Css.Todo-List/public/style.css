@@ -1,0 +1,9 @@
+a[href] {border:1px solid red;}
+* {color:black;}
+#first-name {background-color:orange;}
+#last-name {color:green;}
+.name {font-size:30px;}
+#one {border: 1px dashed blue;border-radius: 5px;padding:5px;}
+.one {color:red;}
+div#one p {background-color:purple;}
+div#one > p {letter-spacing:10px;}
