@@ -1,4 +1,4 @@
-/* global module */
+/* global global, module */
 /* jshint -W065 */
 'use strict';
 

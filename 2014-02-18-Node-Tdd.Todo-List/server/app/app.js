@@ -1,3 +1,4 @@
+/* global process,  require, console */
 'use strict';
 
 var dbname = 'database-name';

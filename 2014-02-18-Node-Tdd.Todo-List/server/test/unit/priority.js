@@ -1,4 +1,4 @@
-/* global describe, require, it, before */
+/* global global, describe, require, it, before */
 /* jshint expr:true */
 'use strict';
 
@@ -15,6 +15,7 @@ describe('Priority', function(){
       done();
     });
   });
+
   describe('new', function(){
     it('should create a new Priority', function(){
       var obj = {name:'High', value: '10'};
