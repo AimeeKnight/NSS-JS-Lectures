@@ -15,3 +15,15 @@ Priority.prototype.save = function(fn){
     fn(record);
   });
 };
+
+Priority.findAll = function(fn){
+  priorities.find().toArray(function(err, records){
+    fn(records);
+  });
+};
+
+Priority.findByName = function(level, fn){
+  priorities.findOne({name: level}, function(err, record){
+    fn(new Priority(record));
+  });
+};
