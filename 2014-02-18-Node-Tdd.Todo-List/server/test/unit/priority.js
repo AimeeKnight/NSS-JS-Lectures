@@ -65,7 +65,7 @@ describe('Priority', function(){
   });
 
   describe('.findByName', function(){
-    it('returns a priority based on the name passed in', function(done){
+    it('finds a priority based on the name passed in', function(done){
       var p1 = new Priority({name:'High', value: '10'});
       var p2 = new Priority({name:'Medium', value: '5'});
       var p3 = new Priority({name:'Low', value: '1'});
@@ -75,6 +75,28 @@ describe('Priority', function(){
           p3.save(function(){
             Priority.findByName('High', function(priority){
               expect(priority).to.have.property('name').and.equal('High');
+              expect(priority).to.be.instanceof(Priority);
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+
+  describe('.findById', function(){
+    it('finds a priority based on the name passed in', function(done){
+      var p1 = new Priority({name:'High', value: '10'});
+      var p2 = new Priority({name:'Medium', value: '5'});
+      var p3 = new Priority({name:'Low', value: '1'});
+
+      p1.save(function(){
+        p2.save(function(){
+          p3.save(function(){
+            var id = p1._id.toString();
+            Priority.findById(id, function(foundPriority){
+              expect(foundPriority).to.be.instanceof(Priority);
+              expect(foundPriority._id.toString()).to.equal(id);
               done();
             });
           });
