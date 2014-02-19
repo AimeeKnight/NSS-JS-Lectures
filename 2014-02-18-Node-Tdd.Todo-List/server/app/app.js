@@ -1,11 +1,12 @@
 /* global process,  require, console */
 'use strict';
 
-var dbname = 'database-name';
+var dbname = process.env.DBNAME;
 var port = process.env.PORT || 4000;
 
 var d = require('./lib/request-debug');
-var connectMongo = require('./lib/mongodb-connection-pool').initialize(dbname);
+var connectMongo = require('./lib/connect');
+
 
 var express = require('express');
 var home = require('./routes/home');

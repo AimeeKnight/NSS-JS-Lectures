@@ -61,6 +61,23 @@ describe('Priority', function(){
         });
       });
     });
+
+    it('priority should update in the database when edited', function(done){
+      var p1 = new Priority({name:'Higgggh', value:'9'});
+      p1.save(function(){
+        p1.value = 8;
+        p1.name = 'Medium High';
+        var oldId = p1._id.toString();
+        p1.save(function(){
+          Priority.findById(oldId, function(priority){
+            expect(priority.name).to.equal('Medium High');
+            expect(priority.value).to.equal(8);
+            done();
+          });
+        });
+      });
+    });
+
   });
 
   describe('.findAll', function(){
@@ -133,6 +150,25 @@ describe('Priority', function(){
       Priority.findById('01234567890123456789abcd', function(foundPriority){
         expect(foundPriority).to.be.null;
         done();
+      });
+    });
+  });
+
+  describe('.deleteById', function(){
+    it('deletes a priority', function(done){
+      var p1 = new Priority({name:'High', value:'10'});
+      var p2 = new Priority({name:'Medium', value:'5'});
+      p1.save(function(){
+        var id = p1._id.toString();
+        p2.save(function(){
+          Priority.deleteById(id, function(count){
+            Priority.findById(id, function(foundPriority){
+              expect(count).to.equal(1);
+              expect(foundPriority).to.be.null;
+              done();
+            });
+          });
+        });
       });
     });
   });
