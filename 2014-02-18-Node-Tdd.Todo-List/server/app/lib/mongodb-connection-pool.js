@@ -1,9 +1,7 @@
-/* global global, require, console, module */
 'use strict';
 
 var MongoClient = require('mongodb').MongoClient;
 
-// initialize databse
 module.exports = function(dbname, fn){
   var connection = 'mongodb://localhost/' + dbname;
 
@@ -16,3 +14,4 @@ module.exports = function(dbname, fn){
     fn();
   });
 };
+

@@ -1,5 +1,5 @@
-/* global beforeEach, global, describe, require, it, before */
 /* jshint expr:true */
+
 'use strict';
 
 var expect = require('chai').expect;
@@ -20,7 +20,7 @@ describe('Priority', function(){
       done();
     });
   });
-
+  // ------------------------------------------------------------------------ //
   describe('new', function(){
     it('should create a new Priority', function(){
       var obj = {name:'High', value: '10'};
@@ -31,7 +31,7 @@ describe('Priority', function(){
       expect(p1).to.have.property('value').and.deep.equal(10);
     });
   });
-
+  // ------------------------------------------------------------------------ //
   describe('#save', function(){
     it('should save a Priority object into the database', function(done){
       var obj = {name:'High', value: '10'};
@@ -62,24 +62,24 @@ describe('Priority', function(){
       });
     });
 
-    it('priority should update in the database when edited', function(done){
-      var p1 = new Priority({name:'Higgggh', value:'9'});
+    it('should update an existing priority', function(done){
+      var p1 = new Priority({name:'High', value:'19'});
+
       p1.save(function(){
-        p1.value = 8;
-        p1.name = 'Medium High';
+        p1.name = 'High';
+        p1.value = 10;
         var oldId = p1._id.toString();
         p1.save(function(){
           Priority.findById(oldId, function(priority){
-            expect(priority.name).to.equal('Medium High');
-            expect(priority.value).to.equal(8);
+            expect(priority.name).to.equal('High');
+            expect(priority.value).to.deep.equal(10);
             done();
           });
         });
       });
     });
-
   });
-
+  // ------------------------------------------------------------------------ //
   describe('.findAll', function(){
     it('should return all Priorities in the datbase', function(done){
       var p1 = new Priority({name:'High', value:'10'});
@@ -98,7 +98,7 @@ describe('Priority', function(){
       });
     });
   });
-
+  // ------------------------------------------------------------------------ //
   describe('.findByName', function(){
     it('should find the Priority by its name', function(done){
       var p1 = new Priority({name:'High', value:'10'});
@@ -125,7 +125,7 @@ describe('Priority', function(){
       });
     });
   });
-
+  // ------------------------------------------------------------------------ //
   describe('.findById', function(){
     it('should find the Priority by its id', function(done){
       var p1 = new Priority({name:'High', value:'10'});
@@ -153,24 +153,29 @@ describe('Priority', function(){
       });
     });
   });
-
+  // ------------------------------------------------------------------------ //
   describe('.deleteById', function(){
-    it('deletes a priority', function(done){
+    it('should delete the priority by its id from the datbase', function(done){
       var p1 = new Priority({name:'High', value:'10'});
       var p2 = new Priority({name:'Medium', value:'5'});
+      var p3 = new Priority({name:'Low', value:'1'});
+
       p1.save(function(){
-        var id = p1._id.toString();
         p2.save(function(){
-          Priority.deleteById(id, function(count){
-            Priority.findById(id, function(foundPriority){
-              expect(count).to.equal(1);
-              expect(foundPriority).to.be.null;
-              done();
+          var id = p2._id.toString();
+          p3.save(function(){
+            Priority.deleteById(id, function(numberRemoved){
+              Priority.findById(id, function(foundPriority){
+                expect(numberRemoved).to.equal(1);
+                expect(foundPriority).to.be.null;
+                done();
+              });
             });
           });
         });
       });
     });
   });
-
+  // ------------------------------------------------------------------------ //
 });
+

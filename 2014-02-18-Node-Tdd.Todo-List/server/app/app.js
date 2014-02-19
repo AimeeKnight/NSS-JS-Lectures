@@ -1,4 +1,3 @@
-/* global process,  require, console */
 'use strict';
 
 var dbname = process.env.DBNAME;
@@ -7,9 +6,9 @@ var port = process.env.PORT || 4000;
 var d = require('./lib/request-debug');
 var connectMongo = require('./lib/connect');
 
-
 var express = require('express');
 var home = require('./routes/home');
+var priorities = require('./routes/priorities');
 var app = express();
 
 /* --- pipeline begins */
@@ -21,10 +20,13 @@ app.use(express.methodOverride());
 app.use(app.router);
 
 app.get('/', d, home.index);
+app.post('/priorities', d, priorities.create);
 /* --- pipeline ends   */
 
 var server = require('http').createServer(app);
 server.listen(port, function(){
   console.log('Node server listening. Port: ' + port + ', Database: ' + dbname);
 });
+
+module.exports = app;
 

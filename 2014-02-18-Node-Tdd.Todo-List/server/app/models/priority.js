@@ -16,7 +16,6 @@ Priority.prototype.save = function(fn){
   var self = this;
 
   if(self._id){
-    // mongo will save if null, update if defined
     priorities.save(self, function(err, record){
       fn(err);
     });
@@ -33,21 +32,12 @@ Priority.prototype.save = function(fn){
   }
 };
 
-/*
-Priority.prototype.save = function(fn){
-  var that = this;
-
-  Priority.findByName(this.name, function(priority){
-    if(!priority){
-      priorities.save(that, function(err, record){
-        fn(err);
-      });
-    }else{
-      fn(new Error('Duplicate Priority'));
-    }
+Priority.deleteById = function(id, fn){
+  var _id = Mongo.ObjectID(id);
+  priorities.remove({_id:_id}, function(err, count){
+    fn(count);
   });
 };
-*/
 
 Priority.findAll = function(fn){
   priorities.find().toArray(function(err, records){
@@ -56,21 +46,15 @@ Priority.findAll = function(fn){
 };
 
 Priority.findByName = function(name, fn){
-  priorities.findOne({name: name}, function(err, record){
+  priorities.findOne({name:name}, function(err, record){
     fn(record ? new Priority(record) : null);
   });
 };
 
 Priority.findById = function(id, fn){
   var _id = Mongo.ObjectID(id);
-  priorities.findOne({_id: _id}, function(err, record){
+  priorities.findOne({_id:_id}, function(err, record){
     fn(record ? new Priority(record) : null);
   });
 };
 
-Priority.deleteById = function(id, fn){
-  var _id = Mongo.ObjectID(id);
-  priorities.remove({_id:_id}, function(err, count){
-    fn(count);
-  });
-};

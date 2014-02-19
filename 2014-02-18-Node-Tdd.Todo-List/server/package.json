@@ -11,12 +11,13 @@
     "mongodb": "*"
   },
   "devDependencies": {
-    "grunt" : "*",
-    "grunt-contrib-jshint" : "*",
-    "jshint-stylish" : "*",
-    "grunt-contrib-watch" : "*",
-    "mocha" : "*",
-    "chai" : "*"
+    "grunt": "*",
+    "grunt-contrib-jshint": "*",
+    "jshint-stylish": "*",
+    "grunt-contrib-watch": "*",
+    "mocha": "*",
+    "chai" : "*",
+    "supertest": "*"
   }
 }
 
