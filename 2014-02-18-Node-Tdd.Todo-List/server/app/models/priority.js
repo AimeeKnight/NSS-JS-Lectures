@@ -13,8 +13,16 @@ function Priority(priority){
 }
 
 Priority.prototype.save = function(fn){
-  priorities.save(this, function(err, record){
-    fn(record);
+  var that = this;
+
+  Priority.findByName(this.name, function(priority){
+    if(!priority){
+      priorities.save(that, function(err, record){
+        fn(err);
+      });
+    }else{
+      fn(new Error('Duplicate Priority'));
+    }
   });
 };
 
@@ -26,13 +34,13 @@ Priority.findAll = function(fn){
 
 Priority.findByName = function(name, fn){
   priorities.findOne({name: name}, function(err, record){
-    fn(new Priority(record));
+    fn(record ? new Priority(record) : null);
   });
 };
 
 Priority.findById = function(id, fn){
   var _id = Mongo.ObjectID(id);
   priorities.findOne({_id: _id}, function(err, record){
-    fn(new Priority(record));
+    fn(record ? new Priority(record) : null);
   });
 };

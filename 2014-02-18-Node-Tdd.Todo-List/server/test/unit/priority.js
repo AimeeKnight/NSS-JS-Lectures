@@ -8,7 +8,6 @@ var Priority;
 describe('Priority', function(){
 
   before(function(done){
-    // connect is a function since module.exports was set to a function
     var connect = require('../../app/lib/mongodb-connection-pool');
     connect('todo-test', function(){
       Priority = global.nss.Priority;
@@ -23,33 +22,52 @@ describe('Priority', function(){
   });
 
   describe('new', function(){
-    it('creates a new Priority', function(){
+    it('should create a new Priority', function(){
       var obj = {name:'High', value: '10'};
       var p1 = new Priority(obj);
+
       expect(p1).to.be.instanceof(Priority);
       expect(p1).to.have.property('name').and.equal('High');
-      expect(p1).to.have.property('value').and.equal(10);
+      expect(p1).to.have.property('value').and.deep.equal(10);
     });
   });
 
   describe('#save', function(){
-    it('saves a priority object into the database', function(done){
+    it('should save a Priority object into the database', function(done){
       var obj = {name:'High', value: '10'};
       var p1 = new Priority(obj);
-      // savedPriority of json object returned from Mongo and passed to callback
-      p1.save(function(savedPriority){
-        expect(savedPriority).to.be.instanceof(Priority);
-        expect(savedPriority).to.have.property('_id').and.be.ok;
+      p1.save(function(err){
+        expect(err).to.be.null;
+        expect(p1).to.be.instanceof(Priority);
+        expect(p1.name).to.equal('High');
+        expect(p1.value).to.deep.equal(10);
+        expect(p1).to.have.property('_id').and.be.ok;
         done();
+      });
+    });
+
+    it('should not create duplicate priorites based on name', function(done){
+      var p1 = new Priority({name:'High', value:'10'});
+      var p2 = new Priority({name:'Medium', value:'5'});
+      var p3 = new Priority({name:'High', value:'1'});
+
+      p1.save(function(){
+        p2.save(function(){
+          p3.save(function(err){
+            expect(err).to.be.instanceof(Error);
+            expect(p3._id).to.be.undefined;
+            done();
+          });
+        });
       });
     });
   });
 
   describe('.findAll', function(){
-    it('returns all Priorities in the database', function(done){
-      var p1 = new Priority({name:'High', value: '10'});
-      var p2 = new Priority({name:'Medium', value: '5'});
-      var p3 = new Priority({name:'Low', value: '1'});
+    it('should return all Priorities in the datbase', function(done){
+      var p1 = new Priority({name:'High', value:'10'});
+      var p2 = new Priority({name:'Medium', value:'5'});
+      var p3 = new Priority({name:'Low', value:'1'});
 
       p1.save(function(){
         p2.save(function(){
@@ -65,35 +83,42 @@ describe('Priority', function(){
   });
 
   describe('.findByName', function(){
-    it('finds a priority based on the name passed in', function(done){
-      var p1 = new Priority({name:'High', value: '10'});
-      var p2 = new Priority({name:'Medium', value: '5'});
-      var p3 = new Priority({name:'Low', value: '1'});
+    it('should find the Priority by its name', function(done){
+      var p1 = new Priority({name:'High', value:'10'});
+      var p2 = new Priority({name:'Medium', value:'5'});
+      var p3 = new Priority({name:'Low', value:'1'});
 
       p1.save(function(){
         p2.save(function(){
           p3.save(function(){
-            Priority.findByName('High', function(priority){
-              expect(priority).to.have.property('name').and.equal('High');
-              expect(priority).to.be.instanceof(Priority);
+            Priority.findByName('Medium', function(foundPriority){
+              expect(foundPriority).to.be.instanceof(Priority);
+              expect(foundPriority.name).to.equal('Medium');
               done();
             });
           });
         });
       });
     });
+
+    it('should not find the Priority by its name', function(done){
+      Priority.findByName('Medium', function(foundPriority){
+        expect(foundPriority).to.be.null;
+        done();
+      });
+    });
   });
 
   describe('.findById', function(){
-    it('finds a priority based on the name passed in', function(done){
-      var p1 = new Priority({name:'High', value: '10'});
-      var p2 = new Priority({name:'Medium', value: '5'});
-      var p3 = new Priority({name:'Low', value: '1'});
+    it('should find the Priority by its id', function(done){
+      var p1 = new Priority({name:'High', value:'10'});
+      var p2 = new Priority({name:'Medium', value:'5'});
+      var p3 = new Priority({name:'Low', value:'1'});
 
       p1.save(function(){
         p2.save(function(){
           p3.save(function(){
-            var id = p1._id.toString();
+            var id = p2._id.toString();
             Priority.findById(id, function(foundPriority){
               expect(foundPriority).to.be.instanceof(Priority);
               expect(foundPriority._id.toString()).to.equal(id);
@@ -101,6 +126,13 @@ describe('Priority', function(){
             });
           });
         });
+      });
+    });
+
+    it('should not find the Priority by its id', function(done){
+      Priority.findById('01234567890123456789abcd', function(foundPriority){
+        expect(foundPriority).to.be.null;
+        done();
       });
     });
   });
