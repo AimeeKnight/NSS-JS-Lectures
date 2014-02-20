@@ -117,6 +117,7 @@ describe('todos', function(){
       Todo.findById(todo_id, function(todo){
         todo.name = 'clean carpet';
         todo.date = 'March 1, 2014';
+        todo.isComplete = true;
         todo.tags = 'home';
         todo.priority_id = priority_id;
 

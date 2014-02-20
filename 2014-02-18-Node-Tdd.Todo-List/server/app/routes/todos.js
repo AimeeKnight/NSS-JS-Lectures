@@ -3,6 +3,7 @@
 'use strict';
 
 var Todo;
+var Mongo = require('mongodb');
 
 exports.create = function(req, res){
   init();
@@ -29,24 +30,22 @@ exports.show = function(req, res){
   });
 };
 
-/*
 exports.update = function(req, res){
   init();
 
-  Todo.findById(req.params.id, function(todo){
-    todo.name = req.body.name;
-    todo.date = req.body.date;
-    todo.tags = req.body.tags;
-    todo.priority_id = req.body.priority_id;
-
-    todo.save(function(todo){
-      console.log(todo);
-      res.send(todo);
-    });
+  var id = new Mongo.ObjectID(req.params.id);
+  var name = req.body.name;
+  var date = req.body.date;
+  var isComplete = req.body.isComplete;
+  var tags = req.body.tags;
+  var priority_id = req.body.priority_id;
+  var todo = new Todo({_id:id, name:name, date:date, isComplete:isComplete, tags:tags, priority_id:priority_id});
+  todo.save(function(){
+    res.send(todo);
   });
 };
-*/
 
+/*
 exports.update = function(req, res){
   init();
 
@@ -55,6 +54,7 @@ exports.update = function(req, res){
     res.send(todo);
   });
 };
+*/
 
 exports.destroy = function(req, res){
   init();
