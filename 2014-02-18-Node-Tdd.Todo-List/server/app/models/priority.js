@@ -1,3 +1,4 @@
+/* global module, global, require */
 'use strict';
 
 module.exports = Priority;

@@ -31,11 +31,15 @@ exports.show = function(req, res){
 exports.update = function(req, res){
   init();
 
-  var priority = new Priority(req.body);
-  priority.save(function(){
-    res.send(priority);
+  Priority.findById(req.params.id, function(priority){
+    priority.name = req.body.name;
+    priority.value = req.body.value;
+    priority.save(function(priority){
+      res.send(priority);
+    });
   });
 };
+
 
 exports.destroy = function(req, res){
   init();
