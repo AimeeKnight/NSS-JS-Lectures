@@ -1,3 +1,4 @@
+/* global exports, global */
 'use strict';
 
 var Priority;
