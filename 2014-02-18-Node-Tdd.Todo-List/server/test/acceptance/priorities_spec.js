@@ -1,4 +1,6 @@
 /* jshint expr:true */
+/* global it, global, require, describe, before, beforeEach, afterEach, process */
+/*jshint camelcase: false */
 
 'use strict';
 
