@@ -40,7 +40,6 @@ exports.update = function(req, res){
   });
 };
 
-
 exports.destroy = function(req, res){
   init();
 

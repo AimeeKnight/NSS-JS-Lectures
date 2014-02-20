@@ -1,3 +1,4 @@
+/* global global, require, module, console */
 'use strict';
 
 var MongoClient = require('mongodb').MongoClient;
@@ -10,6 +11,7 @@ module.exports = function(dbname, fn){
     global.nss = {};
     global.nss.db = db;
     global.nss.Priority = require('../models/priority');
+    global.nss.Todo = require('../models/todo');
     console.log('Connected to MongoDB; Models Loaded');
     fn();
   });
