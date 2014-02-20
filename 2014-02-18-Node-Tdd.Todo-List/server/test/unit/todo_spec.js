@@ -198,9 +198,9 @@ describe('Todo', function(){
           var id = t2._id.toString();
           t3.save(function(){
             Todo.deleteById(id, function(numberRemoved){
-              Todo.findById(id, function(foundPriority){
+              Todo.findById(id, function(foundTodo){
                 expect(numberRemoved).to.equal(1);
-                expect(foundPriority).to.be.null;
+                expect(foundTodo).to.be.null;
                 done();
               });
             });
