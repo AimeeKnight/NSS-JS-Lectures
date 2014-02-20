@@ -21,6 +21,10 @@ app.use(app.router);
 
 app.get('/', d, home.index);
 app.post('/priorities', d, priorities.create);
+app.get('/priorities', d, priorities.index);
+app.get('/priorities/:id', d, priorities.show);
+app.put('/priorities/:id', d, priorities.update);
+app.del('/priorities/:id', d, priorities.destroy);
 /* --- pipeline ends   */
 
 var server = require('http').createServer(app);

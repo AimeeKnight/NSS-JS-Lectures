@@ -1,5 +1,3 @@
-/* global global, module, require */
-/* jshint -W065 */
 'use strict';
 
 module.exports = Priority;
