@@ -184,4 +184,30 @@ describe('Todo', function(){
     });
   });
 
+  describe('.deleteById', function(){
+    it('should delete the todo by its id from the datbase', function(done){
+      var obj1 = {name:'Clean', date: 'March 1, 2014', tags: 'home', priority_id: priority_id};
+      var obj2 = {name:'Wash Car', date: 'March 2, 2014', tags: 'car', priority_id: priority_id};
+      var obj3 = {name:'Walk Dog', date: 'March 3, 2014', tags: 'pet', priority_id: priority_id};
+      var t1 = new Todo(obj1);
+      var t2 = new Todo(obj2);
+      var t3 = new Todo(obj3);
+
+      t1.save(function(){
+        t2.save(function(){
+          var id = t2._id.toString();
+          t3.save(function(){
+            Todo.deleteById(id, function(numberRemoved){
+              Todo.findById(id, function(foundPriority){
+                expect(numberRemoved).to.equal(1);
+                expect(foundPriority).to.be.null;
+                done();
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
 });

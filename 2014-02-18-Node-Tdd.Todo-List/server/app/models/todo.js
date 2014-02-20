@@ -53,3 +53,16 @@ Todo.findByPriority = function(val, fn){
     fn(records);
   });
 };
+
+Todo.findByTag = function(tag, fn){
+  todos.find({tags:{$in: [tag] }}).toArray(function(err, records){
+    fn(records);
+  });
+};
+
+Todo.deleteById = function(id, fn){
+  var _id = Mongo.ObjectID(id);
+  todos.remove({_id:_id}, function(err, count){
+    fn(count);
+  });
+};
