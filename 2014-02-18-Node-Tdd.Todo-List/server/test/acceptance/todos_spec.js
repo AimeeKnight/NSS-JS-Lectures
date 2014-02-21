@@ -32,9 +32,15 @@ describe('todos', function(){
     var obj1 = {name:'Clean', date: 'March 1, 2014', tags: 'home', priority_id: priority_id};
     var obj2 = {name:'Wash Car', date: 'March 2, 2014', tags: 'car', priority_id: priority_id};
     var obj3 = {name:'Walk Dog', date: 'March 3, 2014', tags: 'pet', priority_id: priority_id};
+    var obj4 = {name:'Laundry', date: 'March 4, 2014', tags: 'home', priority_id: priority_id};
+    var obj5 = {name:'Workout', date: 'March 5, 2014', tags: 'fitness', priority_id: priority_id};
+    var obj6 = {name:'Oil Change', date: 'March 6, 2014', tags: 'car', priority_id: priority_id};
     var t1 = new Todo(obj1);
     var t2 = new Todo(obj2);
     var t3 = new Todo(obj3);
+    var t4 = new Todo(obj4);
+    var t5 = new Todo(obj5);
+    var t6 = new Todo(obj6);
 
     p1.save(function(){
       p2.save(function(){
@@ -44,8 +50,14 @@ describe('todos', function(){
             t1.save(function(){
               t2.save(function(){
                 t3.save(function(){
-                  todo_id = t1._id.toString();
-                  done();
+                  t4.save(function(){
+                    t5.save(function(){
+                      t6.save(function(){
+                        todo_id = t1._id.toString();
+                        done();
+                      });
+                    });
+                  });
                 });
               });
             });
@@ -79,12 +91,37 @@ describe('todos', function(){
       request(app)
       .get('/todos')
       .end(function(err, res){
+        expect(res.body.todos).to.have.length(6);
+        expect(res.body.todos[0].name).to.be.ok;
+        expect(res.body.todos[0]._id).to.have.length(24);
+        done();
+      });
+    });
+
+    it('should return the 2nd - 5th todo', function(done){
+      request(app)
+      .get('/todos?skip=1&limit=4')
+      .end(function(err, res){
+        expect(res.body.todos).to.have.length(4);
+        expect(res.body.todos[0].name).to.be.ok;
+        expect(res.body.todos[0]._id).to.have.length(24);
+        done();
+      });
+    });
+
+    /*
+    it('should return all todos in the database', function(done){
+      request(app)
+      .get('/todos')
+      .end(function(err, res){
         expect(res.body.todos).to.have.length(3);
         expect(res.body.todos[0].name).to.be.ok;
         expect(res.body.todos[0]._id).to.have.length(24);
         done();
       });
     });
+    */
+
   });
 
   describe('GET /todos/3', function(){

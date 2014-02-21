@@ -29,10 +29,27 @@ Todo.prototype.save = function(fn){
   });
 };
 
-Todo.findAll = function(fn){
-  todos.find().toArray(function(err, records){
-    fn(records);
-  });
+Todo.findAll = function(fn, queryObj){
+  if (!queryObj){
+    todos.find().toArray(function(err, records){
+      fn(records);
+    });
+  }else{
+    var query = {};
+    if (queryObj.tags){
+      query.tag = queryObj.tags;
+    }
+    if (queryObj.limit){
+      query.limit = queryObj.limit;
+    }
+    if (queryObj.page){
+      query.skip = queryObj.skip;
+    }
+
+    todos.find({tags:{$in:[query.tag]}}).limit(query.limit).skip(query.skip).toArray(function(err, records){
+      fn(records);
+    });
+  }
 };
 
 Todo.findById = function(id, fn){

@@ -90,6 +90,40 @@ describe('Todo', function(){
     });
   });
 
+  describe('.findAll', function(){
+    it('should return all Todos in the database with a specifies skip and limit', function(done){
+      var obj1 = {name:'Clean', date: 'March 1, 2014', tags: 'home', priority_id: priority_id};
+      var obj2 = {name:'Wash Car', date: 'March 2, 2014', tags: 'car', priority_id: priority_id};
+      var obj3 = {name:'Walk Dog', date: 'March 3, 2014', tags: 'pet', priority_id: priority_id};
+      var obj4 = {name:'Laundry', date: 'March 4, 2014', tags: 'home', priority_id: priority_id};
+      var obj5 = {name:'Workout', date: 'March 5, 2014', tags: 'fitness', priority_id: priority_id};
+      var obj6 = {name:'Oil Change', date: 'March 6, 2014', tags: 'car', priority_id: priority_id};
+      var t1 = new Todo(obj1);
+      var t2 = new Todo(obj2);
+      var t3 = new Todo(obj3);
+      var t4 = new Todo(obj4);
+      var t5 = new Todo(obj5);
+      var t6 = new Todo(obj6);
+
+      t1.save(function(){
+        t2.save(function(){
+          t3.save(function(){
+            t4.save(function(){
+              t5.save(function(){
+                t6.save(function(){
+                  Todo.findAll(function(todos){
+                    expect(todos).to.have.length(2);
+                    done();
+                  }, {page:1, limit:4, tags:'home'});
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
   describe('.findById', function(){
     it('should find the todo by its id', function(done){
       var obj1 = {name:'Clean', date: 'March 1, 2014', tags: 'home', priority_id: priority_id};
