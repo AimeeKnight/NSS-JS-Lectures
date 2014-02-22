@@ -11,7 +11,12 @@ function Todo(todo){
   this._id = todo._id;
   this.name = todo.name || '';
   this.date = new Date(todo.date);
-  this.isComplete = todo.isComplete || false;
+
+  if (todo.isComplete === 'on'){
+    this.isComplete = true;
+  }else{
+    this.isComplete = false;
+  }
 
   if (todo.tags instanceof Array){
     this.tags = todo.tags;
