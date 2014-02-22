@@ -1,5 +1,6 @@
 /* global module, global, require */
 /*jshint camelcase: false */
+/*jshint -W065 */
 'use strict';
 
 module.exports = Todo;
@@ -30,6 +31,7 @@ Todo.prototype.save = function(fn){
 };
 
 Todo.findAll = function(fn, queryObj){
+  var page, skip, limit, sort, order, sortOrder;
   if (!queryObj){
     todos.find().toArray(function(err, records){
       fn(records);
@@ -37,16 +39,60 @@ Todo.findAll = function(fn, queryObj){
   }else{
     var query = {};
     if (queryObj.tags){
-      query.tag = queryObj.tags;
+      query.tags = queryObj.tags;
     }
     if (queryObj.limit){
-      query.limit = queryObj.limit;
+      limit = parseInt(queryObj.limit);
     }
     if (queryObj.page){
-      query.skip = queryObj.skip;
+      page = parseInt(queryObj.page);
+    }
+    if (queryObj.sort){
+      sort = parseInt(queryObj.sort);
+    }
+    if (queryObj.order){
+      order = parseInt(queryObj.order);
     }
 
-    todos.find({tags:{$in:[query.tag]}}).limit(query.limit).skip(query.skip).toArray(function(err, records){
+    skip = limit * (page -1);
+    sortOrder = [[sort, order]];
+
+    todos.find(query).limit(limit).skip(skip).sort(sortOrder).toArray(function(err, records){
+      fn(records);
+    });
+  }
+};
+
+Todo.findAll = function(fn, data){
+  if (!data){
+    todos.find().toArray(function(err, records){
+      fn(records);
+    });
+  }else{
+    var page, sort, limit;
+    var query = {};
+    if(data.tags){
+      query.tags = data.tags;
+    }
+    if(data.priorityId){
+      query.priorityId = new Mongo.ObjectID(data.priorityId);
+    }
+    if(data.page){
+      page = parseInt(data.page);
+    }
+    if(data.limit){
+      limit=parseInt(data.limit);
+    }else{
+      limit=5;
+    }
+
+    var skip = limit*(page-1);
+
+    if(data.sort){
+      sort=[[data.sort, data.order]];
+    }
+
+    todos.find(query).sort(sort).skip(skip).limit(limit).toArray(function(err, records){
       fn(records);
     });
   }

@@ -16,19 +16,9 @@ exports.create = function(req, res){
 
 exports.index = function(req, res){
   init();
-  /*
-  if (req.query.skip && req.query.limit){
-    //var skip = req.query.skip;
-    //var limit = req.query.limit;
-    Todo.findAll(function(todos){
-      res.send({todos:todos});
-    });
-  }
-  */
-
   Todo.findAll(function(todos){
     res.send({todos:todos});
-  });
+  }, req.query);
 };
 
 exports.show = function(req, res){

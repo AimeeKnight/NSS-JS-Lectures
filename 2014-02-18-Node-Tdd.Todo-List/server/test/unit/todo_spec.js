@@ -112,9 +112,9 @@ describe('Todo', function(){
               t5.save(function(){
                 t6.save(function(){
                   Todo.findAll(function(todos){
-                    expect(todos).to.have.length(2);
+                    expect(todos).to.have.length(4);
                     done();
-                  }, {page:1, limit:4, tags:'home'});
+                  }, {page:1, limit:4});
                 });
               });
             });

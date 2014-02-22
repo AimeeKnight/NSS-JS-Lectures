@@ -91,7 +91,7 @@ describe('todos', function(){
       request(app)
       .get('/todos')
       .end(function(err, res){
-        expect(res.body.todos).to.have.length(6);
+        expect(res.body.todos).to.have.length(5);
         expect(res.body.todos[0].name).to.be.ok;
         expect(res.body.todos[0]._id).to.have.length(24);
         done();
@@ -109,18 +109,16 @@ describe('todos', function(){
       });
     });
 
-    /*
     it('should return all todos in the database', function(done){
       request(app)
-      .get('/todos')
+      .get('/todos?tags=home')
       .end(function(err, res){
-        expect(res.body.todos).to.have.length(3);
+        expect(res.body.todos).to.have.length(2);
         expect(res.body.todos[0].name).to.be.ok;
         expect(res.body.todos[0]._id).to.have.length(24);
         done();
       });
     });
-    */
 
   });
 
