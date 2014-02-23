@@ -19,15 +19,13 @@
     $('#next').click(paginateForward);
     $('#back').click(paginateBack);
     $('#todos > tbody').on('click', '.tag-link',  getTags);
-    //$('#priorities').on('click', '.name',  editPriority);
-    //$('#priorities').on('click', '.value',  editPriorityValue);
+    $('#todos > tbody').on('click', 'input[name="isComplete"]', updateCompleted);
   }
 
   function getLimit(){
     limit = ($('#limit').val()) ? ($('#limit').val()) : 5;
   }
 
-///////////// USERS //////////////
 // ---------- CREATE ---------- //
   function submitTodo(event){
     var data = $('#todo').serialize();
@@ -109,7 +107,6 @@
           $checkBox = $('<input type="checkbox" name="isComplete"></input>');
         }
 
-        //var numberOfTags = data.todos[i].tags.length;
         var tags = data.todos[i].tags;
 
         makeLinks(tags, $tags);
@@ -158,66 +155,52 @@
   }
 
 // ---------- UPDATE ---------- //
-/*
-  function editPriority(){
-    var $name = $('<td class="update-name-td"></td>');
-    var $input = $('<input class="update-name-input"></input>');
-    $name.append($input);
-    $(this).replaceWith($name);
-  }
+  function updateCompleted(){
+    var checked;
+    var tagsArray = [];
 
-  function editPriorityValue(){
-    var $value = $('<td class="update-value-td"></td>');
-    var $input = $('<input class="update-value-input"></input>');
-    $value.append($input);
-    $(this).replaceWith($value);
-  }
-
-  function updatePriority(){
-    var name;
-    var value;
-    var newName = $(this).parent('.save').siblings('.update-name-td').find('.update-name-input').val();
-    var oldName = $(this).parent('.save').siblings('.name').text();
-
-    var newValue = $(this).parent('.save').siblings('.update-value-td').find('.update-value-input').val();
-    var oldValue = $(this).parent('.save').siblings('.value').text();
-
-    if (newName){
-      name = newName;
-    }else{
-      name = oldName;
+    if($(this).is(':checked')){
+      checked = 'on';
+    } else {
+      checked = false;
     }
 
-    if (newValue){
-      value = newValue;
-    }else{
-      value = oldValue;
-    }
+    var name = $(this).parent('.isComplete').siblings('.name').text();
+    var date = $(this).parent('.isComplete').siblings('.date').text();
+    var priority = $(this).parent('.isComplete').siblings('.priority').text();
+    var priorityOption = $('option.name').text(priority);
+    var priorityId = $(priorityOption).val();
+    var tags = $(this).parent('.isComplete').siblings('.tags');
 
-    console.log(value);
-    console.log(name);
+    tags.each(function(){
+      tagsArray.push($(this).text());
+    });
 
-    var priorityId = $(this).parent('.save').parent('tr').data('id');
-    var url = window.location.origin.replace(/3000/, '4000') + '/priorities/';
-    url += priorityId;
-    var data = {name:name, value:value};
+    //var tagsString = tagsArray.join(', ');
+
+    var todoId = $(this).parent('.isComplete').parent('tr').data('id');
+
+    var url = window.location.origin.replace(/3000/, '4000') + '/todos/';
+    url += todoId;
+
+    //console.log(name + date+ priorityId + tagsString + todoId);
+
+    var data = {name:name, date:date, isComplete:checked, tags:tagsArray, priority_id:priorityId};
     var type = 'PUT';
-    var success = changePriority;
+    var success = changeCompleted;
 
     $.ajax({url:url, type:type, data:data, success:success});
     event.preventDefault();
   }
 
-
-  function changePriority(data){
-    if (data.deleted === 1){
-      console.log(data);
-      getPriorities();
-    }
+  function changeCompleted(data){
+    console.log(data);
+    getTodos();
   }
 
 // ---------- DESTROY ---------- //
 
+  /*
   function deletePriority(){
     var priorityId = $(this).parent('.del').parent('tr').data('id');
     var url = window.location.origin.replace(/3000/, '4000') + '/priorities/';
