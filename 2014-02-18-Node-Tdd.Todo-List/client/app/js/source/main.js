@@ -18,7 +18,7 @@
     $('#save-todo').click(submitTodo);
     $('#next').click(paginateForward);
     $('#back').click(paginateBack);
-    //$('#priorities').on('click', '.saveBtn',  updatePriority);
+    $('#todos > tbody').on('click', '.tag-link',  getTags);
     //$('#priorities').on('click', '.name',  editPriority);
     //$('#priorities').on('click', '.value',  editPriorityValue);
   }
@@ -64,13 +64,23 @@
     }
   }
 
+  function getTags(event){
+    event.stopImmediatePropagation();
+    event.preventDefault();
+    var tagName = $(this).text();
+    queryTags(tagName);
+  }
+
+  function queryTags(tagName){
+    getLimit();
+    tag = tagName;
+    url = window.location.origin.replace(/3000/, '4000') + '/todos?limit='+limit+'&tags='+tag;
+    $.getJSON(url, displayTodos);
+  }
+
   function getTodos(){
     getLimit();
-    if (tag){
-      url = window.location.origin.replace(/3000/, '4000') + '/todos?limit='+limit+'&tags='+tag;
-    }else{
-      url = window.location.origin.replace(/3000/, '4000') + '/todos?limit='+limit;
-    }
+    url = window.location.origin.replace(/3000/, '4000') + '/todos?limit='+limit;
     //url = window.location.origin + '4000/todos';
     $.getJSON(url, displayTodos);
   }
@@ -117,7 +127,7 @@
 
   function makeLinks(tags, $tags){
     tags.forEach(function(tag){
-      var $anchor = $('<a href="#">'+tag+'</a>');
+      var $anchor = $('<a href="#" class="tag-link">'+tag+'</a>');
       var $br = $('<br>');
       $tags.append($anchor, $br);
     });
