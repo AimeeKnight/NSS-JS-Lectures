@@ -8,6 +8,8 @@
   var $checkBox;
   var page = 1;
   var limit;
+  var url;
+  var tag;
 
   function initialize(){
     $(document).foundation();
@@ -64,8 +66,12 @@
 
   function getTodos(){
     getLimit();
-    var url = window.location.origin.replace(/3000/, '4000') + '/todos?limit=' + limit;
-    //var url = window.location.origin + '4000/todos';
+    if (tag){
+      url = window.location.origin.replace(/3000/, '4000') + '/todos?limit='+limit+'&tags='+tag;
+    }else{
+      url = window.location.origin.replace(/3000/, '4000') + '/todos?limit='+limit;
+    }
+    //url = window.location.origin + '4000/todos';
     $.getJSON(url, displayTodos);
   }
 
@@ -73,7 +79,6 @@
     $('tbody').empty();
     if (data.todos.length > 0){
       for (var i = 0; i < data.todos.length; i++){
-        console.log(data.todos.length);
         var $isComplete = $('<td class="isComplete"></td>');
         var $name = $('<td class="name"></td>');
         var $date = $('<td class="date"></td>');
@@ -94,16 +99,28 @@
           $checkBox = $('<input type="checkbox" name="isComplete"></input>');
         }
 
+        //var numberOfTags = data.todos[i].tags.length;
+        var tags = data.todos[i].tags;
+
+        makeLinks(tags, $tags);
+
         $isComplete.append($checkBox);
         $name.text(data.todos[i].name);
         $date.text(dateString);
         $priority.text(priorityName);
-        $tags.text(data.todos[i].tags.join(', '));
         var $row = $('<tr>').attr('data-id', data.todos[i]._id);
         $row.append($isComplete, $name, $date, $priority, $tags);
         $('#todos > tbody').append($row);
       }
     }
+  }
+
+  function makeLinks(tags, $tags){
+    tags.forEach(function(tag){
+      var $anchor = $('<a href="#">'+tag+'</a>');
+      var $br = $('<br>');
+      $tags.append($anchor, $br);
+    });
   }
 
   function paginateForward(){
@@ -121,7 +138,6 @@
     getLimit();
     if (page >= 2){
       var url = window.location.origin.replace(/3000/, '4000') + '/todos?page='+(page - 1)+'&limit='+limit;
-      console.log(url);
       $.getJSON(url, function(data){
         if (data.todos.length > 0){
           page -= 1;
