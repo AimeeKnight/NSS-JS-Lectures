@@ -110,13 +110,13 @@ Todo.findById = function(id, fn){
 
 Todo.findByComplete = function(val, fn){
   todos.find({isComplete:val}).toArray(function(err, records){
-    fn(records);
+    fn({todos:records});
   });
 };
 
 Todo.findByPriority = function(val, fn){
   todos.find({priority_id:val}).toArray(function(err, records){
-    fn(records);
+    fn({todos:records});
   });
 };
 

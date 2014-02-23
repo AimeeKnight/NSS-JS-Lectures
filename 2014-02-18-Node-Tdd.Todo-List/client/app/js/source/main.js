@@ -18,6 +18,9 @@
     $('#save-todo').click(submitTodo);
     $('#next').click(paginateForward);
     $('#back').click(paginateBack);
+    $('#reset').click(getTodos);
+    $('#show-completed').click(showCompleted);
+    $('#show-remaining').click(showRemaining);
     $('#todos > tbody').on('click', '.tag-link',  getTags);
     $('#todos > tbody').on('click', 'input[name="isComplete"]', updateCompleted);
   }
@@ -84,8 +87,10 @@
   }
 
   function displayTodos(data){
+    console.log(data);
     $('tbody').empty();
-    if (data.todos.length > 0){
+    //if (data.todos.length > 0){
+    if (true){
       for (var i = 0; i < data.todos.length; i++){
         var $isComplete = $('<td class="isComplete"></td>');
         var $name = $('<td class="name"></td>');
@@ -108,7 +113,6 @@
         }
 
         var tags = data.todos[i].tags;
-
         makeLinks(tags, $tags);
 
         $isComplete.append($checkBox);
@@ -121,6 +125,19 @@
       }
     }
   }
+
+  function showCompleted(){
+    url = window.location.origin.replace(/3000/, '4000') + '/todos/completed';
+    console.log(url);
+    $.getJSON(url, displayTodos);
+  }
+
+  function showRemaining(){
+    url = window.location.origin.replace(/3000/, '4000') + '/todos/uncompleted';
+    console.log(url);
+    $.getJSON(url, displayTodos);
+  }
+
 
   function makeLinks(tags, $tags){
     tags.forEach(function(tag){
@@ -176,14 +193,10 @@
       tagsArray.push($(this).text());
     });
 
-    //var tagsString = tagsArray.join(', ');
-
     var todoId = $(this).parent('.isComplete').parent('tr').data('id');
 
     var url = window.location.origin.replace(/3000/, '4000') + '/todos/';
     url += todoId;
-
-    //console.log(name + date+ priorityId + tagsString + todoId);
 
     var data = {name:name, date:date, isComplete:checked, tags:tagsArray, priority_id:priorityId};
     var type = 'PUT';

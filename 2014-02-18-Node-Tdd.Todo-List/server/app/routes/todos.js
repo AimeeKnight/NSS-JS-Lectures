@@ -29,6 +29,22 @@ exports.show = function(req, res){
   });
 };
 
+exports.showCompleted = function(req, res){
+  init();
+
+  Todo.findByComplete(true, function(todos){
+    res.send(todos);
+  });
+};
+
+exports.showRemaining = function(req, res){
+  init();
+
+  Todo.findByComplete(false, function(todos){
+    res.send(todos);
+  });
+};
+
 exports.update = function(req, res){
   init();
 

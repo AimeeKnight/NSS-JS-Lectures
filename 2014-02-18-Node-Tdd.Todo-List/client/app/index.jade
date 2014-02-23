@@ -52,18 +52,28 @@ html(class='no-js', lang='en')
               th Priority
               th Tags
           tbody
-       .small-3.columns.centered
+
+      .small-6.columns.centered
+        .small-3.columns.centered
           label View Limit
           input(type="text", placeholder="limit", name="limit")#limit
-       .small-3.columns
+        .small-3.columns.centered
           button.small.radius#limit-todo Limit Todo's
 
     .row
-      .small-6.columns.centered
-        .small-4.columns
+      .small-12.columns
+        .small-2.columns
           button.small.radius#back Back
-        .small-4.columns
+        .small-2.columns
+          button.small.radius.success#show-completed Show Completed
+        .small-2.columns
+          button.small.radius.alert#show-remaining Show Remaining
+        .small-2.columns
+          button.small.radius#reset Reset
+        .small-2.columns
           button.small.radius#next Next
+
+
 
     script(src='/js/vendor/jquery.js')
     script(src='/js/vendor/foundation.js')
