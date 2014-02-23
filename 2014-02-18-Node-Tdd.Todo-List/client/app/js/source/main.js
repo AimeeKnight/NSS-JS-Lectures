@@ -6,7 +6,8 @@
 
   $(document).ready(initialize);
   var $checkBox;
-  var page = 2;
+  var page = 1;
+  var limit;
 
   function initialize(){
     $(document).foundation();
@@ -14,10 +15,14 @@
     getTodos();
     $('#save-todo').click(submitTodo);
     $('#next').click(paginateForward);
-    //$('#back').click(paginateBack);
+    $('#back').click(paginateBack);
     //$('#priorities').on('click', '.saveBtn',  updatePriority);
     //$('#priorities').on('click', '.name',  editPriority);
     //$('#priorities').on('click', '.value',  editPriorityValue);
+  }
+
+  function getLimit(){
+    limit = ($('#limit').val()) ? ($('#limit').val()) : 5;
   }
 
 ///////////// USERS //////////////
@@ -48,7 +53,6 @@
   }
 
   function displayPriorities(data){
-    console.log(data);
     for (var i = 0; i < data.priorities.length; i++){
       var $name = $('<option class="name">help</option>');
 
@@ -59,51 +63,72 @@
   }
 
   function getTodos(){
-    var url = window.location.origin.replace(/3000/, '4000') + '/todos';
+    getLimit();
+    var url = window.location.origin.replace(/3000/, '4000') + '/todos?limit=' + limit;
     //var url = window.location.origin + '4000/todos';
     $.getJSON(url, displayTodos);
   }
 
   function displayTodos(data){
     $('tbody').empty();
-    for (var i = 0; i < data.todos.length; i++){
-      var $isComplete = $('<td class="isComplete"></td>');
-      var $name = $('<td class="name"></td>');
-      var $date = $('<td class="date"></td>');
-      var $priority = $('<td class="priority"></td>');
-      var $tags = $('<td class="tags"></td>');
+    if (data.todos.length > 0){
+      for (var i = 0; i < data.todos.length; i++){
+        console.log(data.todos.length);
+        var $isComplete = $('<td class="isComplete"></td>');
+        var $name = $('<td class="name"></td>');
+        var $date = $('<td class="date"></td>');
+        var $priority = $('<td class="priority"></td>');
+        var $tags = $('<td class="tags"></td>');
 
-      var priorityId = data.todos[i].priority_id;
-      var priorityName = $('option[value="'+priorityId+'"]').text();
+        var priorityId = data.todos[i].priority_id;
+        var priorityName = $('option[value="'+priorityId+'"]').text();
 
-      var date = data.todos[i].date;
-      var dateString = new Date(date).toDateString();
+        var date = data.todos[i].date;
+        var dateString = new Date(date).toDateString();
 
-      var completed = data.todos[i].isComplete;
+        var completed = data.todos[i].isComplete;
 
-      if (completed){
-        $checkBox = $('<input type="checkbox" name="isComplete" checked="true"></input>');
-      }else{
-        $checkBox = $('<input type="checkbox" name="isComplete"></input>');
+        if (completed){
+          $checkBox = $('<input type="checkbox" name="isComplete" checked="true"></input>');
+        }else{
+          $checkBox = $('<input type="checkbox" name="isComplete"></input>');
+        }
+
+        $isComplete.append($checkBox);
+        $name.text(data.todos[i].name);
+        $date.text(dateString);
+        $priority.text(priorityName);
+        $tags.text(data.todos[i].tags.join(', '));
+        var $row = $('<tr>').attr('data-id', data.todos[i]._id);
+        $row.append($isComplete, $name, $date, $priority, $tags);
+        $('#todos > tbody').append($row);
       }
-
-      $isComplete.append($checkBox);
-      $name.text(data.todos[i].name);
-      $date.text(dateString);
-      $priority.text(priorityName);
-      $tags.text(data.todos[i].tags.join(', '));
-      var $row = $('<tr>').attr('data-id', data.todos[i]._id);
-      $row.append($isComplete, $name, $date, $priority, $tags);
-      $('#todos > tbody').append($row);
     }
   }
 
   function paginateForward(){
-    var limit = $('#limit').val();
-    var url = window.location.origin.replace(/3000/, '4000') + '/todos?page='+page+'&limit='+limit;
-    console.log(url);
-    $.getJSON(url, displayTodos);
-    page += 1;
+    getLimit();
+    var url = window.location.origin.replace(/3000/, '4000') + '/todos?page='+(page + 1)+'&limit='+limit;
+    $.getJSON(url, function(data){
+      if (data.todos.length > 0){
+        page += 1;
+        displayTodos(data);
+      }
+    });
+  }
+
+  function paginateBack(){
+    getLimit();
+    if (page >= 2){
+      var url = window.location.origin.replace(/3000/, '4000') + '/todos?page='+(page - 1)+'&limit='+limit;
+      console.log(url);
+      $.getJSON(url, function(data){
+        if (data.todos.length > 0){
+          page -= 1;
+          displayTodos(data);
+        }
+      });
+    }
   }
 
 // ---------- UPDATE ---------- //

@@ -87,8 +87,6 @@ Todo.findAll = function(fn, data){
     }
     if(data.limit){
       limit=parseInt(data.limit);
-    }else{
-      limit=5;
     }
 
     var skip = limit*(page-1);
