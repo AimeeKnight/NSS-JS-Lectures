@@ -1,3 +1,4 @@
+/* global process, require, console, module */
 'use strict';
 
 var dbname = process.env.DBNAME;
@@ -9,6 +10,7 @@ var initRoutes = require('./lib/init-routes');
 
 var express = require('express');
 var app = express();
+var RedisStore = require('connect-redis')(express);
 
 /* --- pipeline begins */
 app.use(initMongo.connect);
@@ -17,6 +19,15 @@ app.use(express.logger(':remote-addr -> :method :url [:status]'));
 app.use(cors);
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+
+app.use(express.cookieParser());
+// CONNECT TO REDIS
+app.use(express.session({
+  store : new RedisStore({host: 'localhost', port: 6379}),
+  secret: 'change-this-to-a-super-secret-message',
+  cookie: { maxAge: 60 * 60 * 1000 }
+}));
+
 app.use(app.router);
 /* --- pipeline ends   */
 

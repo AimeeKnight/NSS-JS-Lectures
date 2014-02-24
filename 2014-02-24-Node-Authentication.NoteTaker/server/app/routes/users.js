@@ -12,3 +12,14 @@ exports.create = function(req, res){
     });
   });
 };
+
+exports.show = function(req, res){
+
+  User.findByEmail(req.params.id, function(user){
+    res.send(user);
+  });
+};
+
+exports.login = function(req, res){
+  res.send({login:true});
+};

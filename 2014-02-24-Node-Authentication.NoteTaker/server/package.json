@@ -10,7 +10,8 @@
     "lodash": "*",
     "moment": "*",
     "mongodb": "*",
-    "bcrypt": "*"
+    "bcrypt": "*",
+    "connect-redis": "*"
   },
   "devDependencies": {
     "grunt": "*",

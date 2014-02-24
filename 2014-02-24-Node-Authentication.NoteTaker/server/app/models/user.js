@@ -27,7 +27,23 @@ User.prototype.hash = function(fn){
 
 // SAVE USER //
 User.prototype.insert = function(fn){
-  users.insert(this, function(err, records){
-    fn(records[0]);
+  var that = this;
+  users.findOne({email:this.email}, function(err, user){
+    if (!user){
+      users.insert(that, function(err, records){
+        //fn(records[0]);
+        fn({success:true});
+      });
+    } else {
+      fn({success:false});
+    }
   });
 };
+
+/*
+User.findByEmail = function(email, fn){
+  users.findOne({email:email}, function(err, record){
+    fn(record ? new User(record) : null);
+  });
+};
+*/
