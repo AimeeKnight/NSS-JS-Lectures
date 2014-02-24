@@ -9,7 +9,8 @@
     "express": "*",
     "lodash": "*",
     "moment": "*",
-    "mongodb": "*"
+    "mongodb": "*",
+    "bcrypt": "*"
   },
   "devDependencies": {
     "grunt": "*",

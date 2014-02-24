@@ -1,3 +1,4 @@
+/* global global, require, process, exports, console */
 'use strict';
 
 var MongoClient = require('mongodb').MongoClient;
