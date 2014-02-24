@@ -29,6 +29,7 @@ exports.show = function(req, res){
   });
 };
 
+/*
 exports.showCompleted = function(req, res){
   init();
 
@@ -36,6 +37,7 @@ exports.showCompleted = function(req, res){
     res.send(todos);
   });
 };
+*/
 
 exports.showRemaining = function(req, res){
   init();

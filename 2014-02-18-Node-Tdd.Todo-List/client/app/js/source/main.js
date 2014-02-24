@@ -135,17 +135,18 @@
   }
 
   function showCompleted(){
-    url = window.location.origin.replace(/3000/, '4000') + '/todos/completed';
+    url = window.location.origin.replace(/3000/, '4000') + '/todos?limit='+limit+'&isComplete=true';
+    //url = window.location.origin.replace(/3000/, '4000') + '/todos/completed';
     console.log(url);
     $.getJSON(url, displayTodos);
   }
 
   function showRemaining(){
+    //url = window.location.origin.replace(/3000/, '4000') + '/todos?limit='+limit+'&isComplete=false';
     url = window.location.origin.replace(/3000/, '4000') + '/todos/uncompleted';
     console.log(url);
     $.getJSON(url, displayTodos);
   }
-
 
   function makeLinks(tags, $tags){
     tags.forEach(function(tag){

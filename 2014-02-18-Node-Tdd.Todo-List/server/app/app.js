@@ -29,8 +29,7 @@ app.put('/priorities/:id', d, priorities.update);
 app.del('/priorities/:id', d, priorities.destroy);
 app.post('/todos', d, todos.create);
 app.get('/todos', d, todos.index);
-app.get('/todos/completed', d, todos.showCompleted);
-
+//app.get('/todos/completed', d, todos.showCompleted);
 app.get('/todos/uncompleted', d, todos.showRemaining);
 app.get('/todos/:id', d, todos.show);
 app.put('/todos/:id', d, todos.update);

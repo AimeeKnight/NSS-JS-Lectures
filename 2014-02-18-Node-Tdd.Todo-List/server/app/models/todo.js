@@ -36,30 +36,36 @@ Todo.prototype.save = function(fn){
 };
 
 Todo.findAll = function(fn, data){
+  // data === req.query
   if (!data){
     todos.find().toArray(function(err, records){
       fn(records);
     });
   }else{
-    var page, sort, limit;
+    var page, sort, limit, skip;
     var query = {};
+
     if(data.tags){
       query.tags = data.tags;
     }
     if(data.priorityId){
       query.priorityId = new Mongo.ObjectID(data.priorityId);
     }
+    if(data.isComplete){
+      query.isComplete = !!data.isComplete;
+    }
+
     if(data.page){
       page = parseInt(data.page);
     }
     if(data.limit){
-      limit=parseInt(data.limit);
+      limit = parseInt(data.limit);
     }
 
-    var skip = limit*(page-1);
+    skip = limit*(page-1);
 
     if(data.sort){
-      sort=[[data.sort, data.order]];
+      sort=[[data.sort, parseInt(data.order)]];
     }
 
     todos.find(query).sort(sort).skip(skip).limit(limit).toArray(function(err, records){
