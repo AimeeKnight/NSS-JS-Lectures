@@ -21,6 +21,7 @@
     $('#reset').click(getTodos);
     $('#show-completed').click(showCompleted);
     $('#show-remaining').click(showRemaining);
+    $('#due-date').click(getTodosByDate);
     $('#todos > tbody').on('click', '.tag-link',  getTags);
     $('#todos > tbody').on('click', 'input[name="isComplete"]', updateCompleted);
   }
@@ -70,6 +71,13 @@
     event.preventDefault();
     var tagName = $(this).text();
     queryTags(tagName);
+  }
+
+  function getTodosByDate(){
+    getLimit();
+    url = window.location.origin.replace(/3000/, '4000') + '/todos?limit='+limit+'&sort=date&order=1';
+    //url = window.location.origin + '4000/todos';
+    $.getJSON(url, displayTodos);
   }
 
   function queryTags(tagName){

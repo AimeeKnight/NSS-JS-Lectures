@@ -35,39 +35,6 @@ Todo.prototype.save = function(fn){
   });
 };
 
-Todo.findAll = function(fn, queryObj){
-  var page, skip, limit, sort, order, sortOrder;
-  if (!queryObj){
-    todos.find().toArray(function(err, records){
-      fn(records);
-    });
-  }else{
-    var query = {};
-    if (queryObj.tags){
-      query.tags = queryObj.tags;
-    }
-    if (queryObj.limit){
-      limit = parseInt(queryObj.limit);
-    }
-    if (queryObj.page){
-      page = parseInt(queryObj.page);
-    }
-    if (queryObj.sort){
-      sort = parseInt(queryObj.sort);
-    }
-    if (queryObj.order){
-      order = parseInt(queryObj.order);
-    }
-
-    skip = limit * (page -1);
-    sortOrder = [[sort, order]];
-
-    todos.find(query).limit(limit).skip(skip).sort(sortOrder).toArray(function(err, records){
-      fn(records);
-    });
-  }
-};
-
 Todo.findAll = function(fn, data){
   if (!data){
     todos.find().toArray(function(err, records){
