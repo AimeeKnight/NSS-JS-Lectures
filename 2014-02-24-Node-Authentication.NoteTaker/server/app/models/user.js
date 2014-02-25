@@ -31,19 +31,10 @@ User.prototype.insert = function(fn){
   users.findOne({email:this.email}, function(err, user){
     if (!user){
       users.insert(that, function(err, records){
-        //fn(records[0]);
-        fn({success:true});
+        fn(records[0]);
       });
     } else {
-      fn({success:false});
+      fn(null);
     }
   });
 };
-
-/*
-User.findByEmail = function(email, fn){
-  users.findOne({email:email}, function(err, record){
-    fn(record ? new User(record) : null);
-  });
-};
-*/

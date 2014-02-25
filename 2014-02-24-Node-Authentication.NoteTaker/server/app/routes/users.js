@@ -8,7 +8,11 @@ exports.create = function(req, res){
   var user = new User(req.body);
   user.hash(function(){
     user.insert(function(user){
-      res.send(user);
+      if (user){
+        res.send({isSuccess:true});
+      }else{
+        res.send({isSuccess:false});
+      }
     });
   });
 };
@@ -23,3 +27,4 @@ exports.show = function(req, res){
 exports.login = function(req, res){
   res.send({login:true});
 };
+
