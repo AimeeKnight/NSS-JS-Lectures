@@ -16,6 +16,7 @@ function load(app, fn){
   var home = require('../routes/home');
 
   app.get('/', d, home.index);
+  app.get('/flags', d, home.match);
   console.log('Routes Loaded');
   fn();
 }

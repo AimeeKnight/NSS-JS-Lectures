@@ -5,8 +5,12 @@ var f2 = {country: 'Canada', flag:'ca'};
 var f3 = {country: 'Russia', flag:'ru'};
 var f4 = {country: 'Italy', flag:'it'};
 var f5 = {country: 'France', flag:'fr'};
+var f6 = {country: 'Anguilla', flag:'ai'};
+var f7 = {country: 'Argentina', flag:'ar'};
+var f8 = {country: 'Armenia', flag:'am'};
+var f9 = {country: 'Aruba', flag:'aw'};
 
-global.flags = [f1, f2, f3, f4, f5];
+global.flags = [f1, f2, f3, f4, f5, f6, f7, f8, f9];
 
 var dbname = process.env.DBNAME;
 var port = process.env.PORT || 4000;
