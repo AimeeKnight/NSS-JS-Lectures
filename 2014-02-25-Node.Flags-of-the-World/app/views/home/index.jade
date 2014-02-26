@@ -18,22 +18,24 @@ html(class='no-js', lang='en')
     .row
       .small-12.columns
         .small-6.columns
-          each f in flags
-            .flag(class='flag-' + f.flag)
+          h5 Country Name
+          p#country-name ____________________
         .small-6.columns
-          each f in shuffledFlags
-            h5.country= f.country
+          h5 Time Remaining
+          p#timer 120
 
     .row
       .small-12.columns
-        .small-3.columns
-          h5#flag-code
-        .small-3.columns
-          h5#country-name
-        .small-3.columns
-          button.small#match Match?
-        .small-3.columns
-          h5#timer
+        .panel.radius
+          .small-4.columns
+            each f in flags
+              .flag(class='flag-' + f.flag)
+          .small-4.columns
+            each f in shuffledFlags
+              h5.country= f.country
+          .small-4.columns
+            button.small.radius#match Match?
+          .clear
 
     script(src='/js/vendor/jquery.js')
     script(src='/js/vendor/foundation.js')
