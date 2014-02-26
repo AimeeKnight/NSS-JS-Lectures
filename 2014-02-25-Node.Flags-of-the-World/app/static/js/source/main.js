@@ -17,7 +17,6 @@
 
   var timer = setInterval(countDown, 1000);
 
-  
   function countDown(){
     if (i === 0){
       clearInterval(timer);
@@ -31,7 +30,7 @@
   function getCountryCode(){
     if ($clickedFlag){
       $clickedFlag.removeClass('flag-lose');
-      $clickedCountryName.removeClass('alert-box warning radius');
+      $clickedCountryName.removeClass('flag-lose');
     }
     $clickedFlag = $(this);
     flagCode = $(this).attr('class');
@@ -52,10 +51,10 @@
   function showResult(data){
     if (data.match){
       $clickedFlag.addClass('flag-win', 1000, 'easeOutBounce' );
-      $clickedCountryName.addClass('alert-box success radius', 1000, 'easeOutBounce' );
+      $clickedCountryName.addClass('flag-win', 1000, 'easeOutBounce' );
     }else{
       $clickedFlag.addClass('flag-lose', 1000, 'easeOutBounce' );
-      $clickedCountryName.addClass('alert-box warning radius', 1000, 'easeOutBounce' );
+      $clickedCountryName.addClass('flag-lose', 1000, 'easeOutBounce' );
     }
   }
 
