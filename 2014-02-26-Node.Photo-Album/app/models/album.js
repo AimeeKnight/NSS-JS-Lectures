@@ -13,6 +13,8 @@ function Album(album){
 }
 
 Album.prototype.addCover = function(oldpath){
+  // oldpath === tmp/randomnumber.jpg
+
   // app/static/img/eurovacation/cover.jpg
   var dirname = this.title.replace(/\s/g, '').toLowerCase();
   var newpath = __dirname + '/../static/img/' + dirname;
@@ -25,16 +27,14 @@ Album.prototype.addCover = function(oldpath){
   this.cover = path.normalize(newpath);
 };
 
-Album.prototype.insert = function(title, fn){
-  var self = this;
+Album.prototype.insert = function(fn){
+  albums.insert(this, function(err, records){
+    fn(err);
+  });
+};
 
-  albums.findOne({title:this.title}, function(err, album){
-    if(!album){
-      albums.insert(self, function(err, records){
-        fn(records[0]);
-      });
-    }else{
-      fn(null);
-    }
+Album.findAll = function(fn){
+  albums.find().toArray(function(err, records){
+    fn(records);
   });
 };

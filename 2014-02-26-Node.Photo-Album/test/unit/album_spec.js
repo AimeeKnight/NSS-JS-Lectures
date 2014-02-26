@@ -15,14 +15,16 @@ before(function(done){
   });
 });
 
-beforeEach(function(){
+beforeEach(function(done){
+  var imgdir = __dirname + '/../../app/static/img';
+  rimraf.sync(imgdir);
+  fs.mkdirSync(imgdir);
+  var origfile = __dirname + '/../fixtures/euro.jpg';
+  var copyfile = __dirname + '/../fixtures/euro-copy.jpg';
+  fs.createReadStream(origfile).pipe(fs.createWriteStream(copyfile));
+
   global.nss.db.dropDatabase(function(err, result){
-    var imgdir = __dirname + '/../../app/static/img';
-    rimraf.sync(imgdir);
-    fs.mkdirSync(imgdir);
-    var origfile = __dirname + '/../fixtures/euro.jpg';
-    var copyfile = __dirname + '/../fixtures/euro-copy.jpg';
-    fs.createReadStream(origfile).pipe(fs.createWriteStream(copyfile));
+    done();
   });
 });
 
@@ -51,13 +53,15 @@ describe('Album', function(){
     });
   });
 
-  describe('.insert', function(){
+  describe('#insert', function(){
     it('saves an album to the database', function(done){
       var o = {};
-      var title = o.title = 'Euro Vacation';
       o.taken = '2010-03-25';
+      o.title = 'Euro Vacation';
       var a1 = new Album(o);
-      a1.insert(title, function(){
+      var oldname = __dirname + '/../fixtures/euro-copy.jpg';
+      a1.addCover(oldname);
+      a1.insert(function(){
         expect(a1._id.toString()).to.have.length(24);
         done();
       });
