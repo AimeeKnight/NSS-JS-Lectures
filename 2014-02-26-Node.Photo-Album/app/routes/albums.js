@@ -17,6 +17,6 @@ exports.create = function(req, res){
 exports.index = function(req, res){
   Album.findAll(function(albums){
     console.log(albums);
-    res.send({records:albums});
+    res.render('albums', {albums:albums});
   });
 };

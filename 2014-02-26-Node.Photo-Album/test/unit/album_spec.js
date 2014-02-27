@@ -67,5 +67,31 @@ describe('Album', function(){
       });
     });
   });
+
+  describe('Find Methods', function(){
+    beforeEach(function(done){
+      var a1 = new Album({title:'A', taken:'2012-03-25'});
+      var a2 = new Album({title:'B', taken:'2012-03-26'});
+      var a3 = new Album({title:'C', taken:'2012-03-27'});
+
+      a1.insert(function(){
+        a2.insert(function(){
+          a3.insert(function(){
+            done();
+          });
+        });
+      });
+    });
+
+    describe('.findAll', function(){
+      it('should find all the albums in the database', function(done){
+        Album.findAll(function(albums){
+          expect(albums).to.have.length(3);
+          done();
+        });
+      });
+    });
+  });
+
 });
 

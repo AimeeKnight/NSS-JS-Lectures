@@ -18,8 +18,8 @@ function load(app, fn){
 
   app.get('/', d, home.index);
   app.get('/albums/new', d, albums.new);
-  app.post('/albums', d, albums.create);
   app.get('/albums', d, albums.index);
+  app.post('/albums', d, albums.create);
   console.log('Routes Loaded');
   fn();
 }
