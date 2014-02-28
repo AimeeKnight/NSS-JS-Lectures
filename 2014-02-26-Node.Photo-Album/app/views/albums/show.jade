@@ -9,10 +9,11 @@ html(class='no-js', lang='en')
     link(rel='stylesheet', href='/css/foundation.css')
     link(rel='stylesheet', href='/less/app.css')
     script(src='/js/vendor/modernizr.js')
-  body(style='background-image:url("'+album.cover+'")')
+  body
     .row
       .small-12.columns
-        h1=title + ' : ' + moment(album.taken).format('MMMM Do, YYYY')
+        .panel
+          h1=title + ' : ' + moment(album.taken).format('MMMM Do, YYYY')
     .row
       .small-12.columns
         a.button.tiny.radius(href='/') Home Page
@@ -27,8 +28,9 @@ html(class='no-js', lang='en')
                 input(type='file', name='photo')
               .small-4.columns
                 label &nbsp;
-                button.tiny.radius Add Photo
+                button.small.radius Add Photo
       .small-6.columns
+
     .row
       .small-12.columns
         each photo in album.photos

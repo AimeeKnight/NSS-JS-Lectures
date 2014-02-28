@@ -161,4 +161,3 @@ describe('Album', function(){
     });
   });
 });
-
