@@ -1,17 +1,17 @@
 'use strict';
 
 module.exports = Album;
-
-var albums = global.nss.db.collection('albums');
 var fs = require('fs');
 var path = require('path');
+var albums = global.nss.db.collection('albums');
 var Mongo = require('mongodb');
-var _ = require('lodash');
 
 function Album(album){
+  this._id = album._id ? Mongo.ObjectID(album._id) : null;
   this.title = album.title;
   this.taken = new Date(album.taken);
-  this.photos = [];
+  this.cover = album.cover ? album.cover : '';
+  this.photos = album.photos ? album.photos : [];
 }
 
 Album.prototype.addCover = function(oldpath){
@@ -36,15 +36,17 @@ Album.prototype.addPhoto = function(oldpath, name){
   this.photos.push(relpath);
 };
 
-Album.prototype.insert = function(fn){
-  albums.insert(this, function(err, records){
-    fn(err);
+Album.prototype.update = function(fn){
+  console.log('THIS');
+  console.log(this);
+  albums.save(this, function(err, album){
+    fn(album);
   });
 };
 
-Album.prototype.update = function(fn){
-  albums.update({_id:this._id}, this, function(err, count){
-    fn(err, count);
+Album.prototype.insert = function(fn){
+  albums.insert(this, function(err, records){
+    fn(err);
   });
 };
 
@@ -55,10 +57,11 @@ Album.findAll = function(fn){
 };
 
 Album.findById = function(id, fn){
-  var _id = Mongo.ObjectID(id);
-
-  albums.findOne({_id:_id}, function(err, record){
-    fn(_.extend(record, Album.prototype));
+  var _id = new Mongo.ObjectID(id);
+  albums.findOne({_id:_id}, function(err, album){
+    fn(album);
   });
 };
+
+
 

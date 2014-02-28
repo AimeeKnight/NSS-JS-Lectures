@@ -9,35 +9,30 @@ html(class='no-js', lang='en')
     link(rel='stylesheet', href='/css/foundation.css')
     link(rel='stylesheet', href='/less/app.css')
     script(src='/js/vendor/modernizr.js')
-  body
+  body(style='background-image:url("'+album.cover+'")')
     .row
       .small-12.columns
-        h1=title
+        h1=title + ' : ' + moment(album.taken).format('MMMM Do, YYYY')
     .row
       .small-12.columns
         a.button.tiny.radius(href='/') Home Page
     .row
-      .small-12.columns
-        form(action='/albums', method='post', enctype='multipart/form-data')
+      .small-6.columns
+        form(action='/albums/' + album._id, method='post', enctype='multipart/form-data')
           fieldset
-            legend= title
+            legend Add Photo
             .row
+              .small-8.columns
+                label Photo
+                input(type='file', name='photo')
               .small-4.columns
-                label Title
-                input(type='text', name='title')
-              .small-4.columns
-                label Date Taken
-                input(type='date', name='taken')
-              .small-4.columns
-                label Cover Image
-                input(type='file', name='cover')
-            .row
-              .small-4.columns
-                &nbsp;
-              .small-4.columns
-                &nbsp;
-              .small-4.columns
-                button.small.radius Insert Album
+                label &nbsp;
+                button.tiny.radius Add Photo
+      .small-6.columns
+    .row
+      .small-12.columns
+        each photo in album.photos
+          .photo(style='background-image:url("'+photo+'")')
 
     script(src='/js/vendor/jquery.js')
     script(src='/js/vendor/foundation.js')

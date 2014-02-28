@@ -13,16 +13,6 @@ html(class='no-js', lang='en')
     .row
       .small-12.columns
         h1=title
-    .row
-      .small-12.columns
-        a.button.tiny.radius(href='/albums/new') New Album
-    .row
-      .small-12.columns
-        each album in albums
-          .album
-            .cover(style='background-image:url("'+album.cover+'")')
-            .title: a(href='/albums/' + album._id)= album.title
-            .taken= moment(album.taken).format('MMMM Do, YYYY')
 
     script(src='/js/vendor/jquery.js')
     script(src='/js/vendor/foundation.js')
