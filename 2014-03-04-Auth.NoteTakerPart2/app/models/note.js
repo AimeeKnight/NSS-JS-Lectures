@@ -29,3 +29,16 @@ Note.findByUserId = function(userId, fn){
   });
 };
 
+Note.deleteById = function(id, fn){
+  var _id = Mongo.ObjectID(id);
+  notes.remove({_id:_id}, function(err, deleted){
+    fn(deleted);
+  });
+};
+
+Note.findById = function(id, fn){
+  var _id = Mongo.ObjectID(id);
+  notes.findOne({_id:_id}, function(err, record){
+    fn(record);
+  });
+};

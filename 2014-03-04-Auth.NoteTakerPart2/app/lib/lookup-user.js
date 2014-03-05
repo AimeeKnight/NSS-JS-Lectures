@@ -5,9 +5,6 @@ module.exports = function(req, res, next){
 
   User.findOne(req.session.userId, function(foundUser){
     res.locals.user = foundUser;
-    console.log('FOUND USER');
-    console.log(foundUser);
-
     next();
   });
 };

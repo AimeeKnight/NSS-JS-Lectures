@@ -1,8 +1,6 @@
 'use strict';
-
 var d = require('../lib/request-debug');
 var initialized = false;
-
 module.exports = function(req, res, next){
   if(!initialized){
     initialized = true;
@@ -24,6 +22,10 @@ function load(app, fn){
   app.post('/logout', d, users.logout);
 
   app.get('/notes', d, notes.index);
+  app.get('/notes/new', d, notes.new);
+  app.post('/notes', d, notes.create);
+  app.delete('/notes/:id', d, notes.destroy);
+  app.get('/notes/:id', d, notes.show);
   console.log('Routes Loaded');
   fn();
 }
