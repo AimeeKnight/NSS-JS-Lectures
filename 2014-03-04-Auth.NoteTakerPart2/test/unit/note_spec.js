@@ -4,8 +4,8 @@
 process.env.DBNAME = 'note2';
 var expect = require('chai').expect;
 var Mongo = require('mongodb');
-var Note, User, u1;
-var userId;
+var Note, User, u1, u2;
+var userId, userId2;
 
 describe('Note', function(){
 
@@ -21,10 +21,16 @@ describe('Note', function(){
   beforeEach(function(done){
     global.nss.db.dropDatabase(function(err, result){
       u1 = new User({email:'prince@aol.com', password:'1234'});
+      u2 = new User({email:'princecess@aol.com', password:'5678'});
       u1.hashPassword(function(){
         u1.insert(function(){
           userId = u1._id.toString();
-          done();
+          u2.hashPassword(function(){
+            u2.insert(function(){
+              userId2 = u2._id.toString();
+              done();
+            });
+          });
         });
       });
     });
@@ -73,34 +79,39 @@ describe('Note', function(){
       });
     });
   });
-  
+
+  beforeEach(function(done){
+    var n1 = new Note({title:'Node Note',
+                       body:'Sample Text',
+                       dateCreated:'2014-03-05',
+                       tags:'homework, prog, code',
+                       userId:'111111111111111111111111'});
+    var n2 = new Note({title:'Node Note 1',
+                       body:'Sample Text',
+                       dateCreated:'2014-03-05',
+                       tags:'homework, prog, code',
+                       userId:userId});
+    var n3 = new Note({title:'Node Note 2',
+                       body:'Sample Text',
+                       dateCreated:'2014-03-05',
+                       tags:'homework, prog, code',
+                       userId:userId});
+
+    n1.insert(function(){
+      n2.insert(function(){
+        n3.insert(function(){
+          done();
+        });
+      });
+    });
+  });
+
   describe('.findByUserId', function(done){
     it('should ', function(done){
-      var n1 = new Note({title:'Node Note',
-                         body:'Sample Text',
-                         dateCreated:'2014-03-05',
-                         tags:'homework, prog, code',
-                         userId:'111111111111111111111111'});
-      var n2 = new Note({title:'Node Note',
-                         body:'Sample Text',
-                         dateCreated:'2014-03-05',
-                         tags:'homework, prog, code',
-                         userId:userId});
-      var n3 = new Note({title:'Node Note',
-                         body:'Sample Text',
-                         dateCreated:'2014-03-05',
-                         tags:'homework, prog, code',
-                         userId:userId});
-
-      n1.insert(function(){
-        n2.insert(function(){
-          n3.insert(function(){
-            Note.findByUserId(userId, function(records){
-              expect(records).to.have.length(2);
-              done();
-            });
-          });
-        });
+      Note.findByUserId(userId, function(userNotes){
+        expect(userNotes).to.have.length(2);
+        expect(userNotes[0].title).to.equal('Node Note 1');
+        done();
       });
     });
   });

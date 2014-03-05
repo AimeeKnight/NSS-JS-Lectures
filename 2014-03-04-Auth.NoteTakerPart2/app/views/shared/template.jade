@@ -13,8 +13,8 @@ html(class='no-js', lang='en')
     nav.top-bar
       ul.title-area
         li.name
-          h1: a(href"/") NoteTaker 2
-        li.toggle-top-bar.menu-icon
+          h1: a(href="/") NoteTaker2
+        li.toggle-topbar.menu-icon
           a(href="#") Menu
 
       section.top-bar-section
@@ -22,10 +22,14 @@ html(class='no-js', lang='en')
         ul.right
           li: a(href="/") Home
           li.divider
-          li: a(href="/auth") Register
-          li.divider
-          li: a(href="/auth") Login
-          li.divider
+          if user
+            li: a(href="/")= user.email
+            li.divider
+            li.has-form
+              form(action='/logout'  method='POST' )
+                button.tiny.radius.space Logout
+          else
+            li: a(href="/auth") Register / Login
 
     .row
       .small-11.columns
