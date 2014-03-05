@@ -45,7 +45,6 @@ describe('users', function(){
         expect(res.text).to.include('Register / Login');
         done();
       });
-     // .expect(200, done);
     });
   });
 
