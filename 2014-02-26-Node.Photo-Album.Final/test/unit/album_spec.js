@@ -1,77 +1,59 @@
 'use strict';
+
 process.env.DBNAME = 'album-test';
 var expect = require('chai').expect;
-//var Mongo = require('mongodb');
 var fs = require('fs');
 var exec = require('child_process').exec;
 var Album;
 
-before(function(done){
-  var initMongo = require('../../app/lib/init-mongo');
-  initMongo.db(function(){
-    Album = require('../../app/models/album');
-    done();
-  });
-});
+describe('Album', function(){
 
-beforeEach(function(done){
-  var testdir = __dirname + '/../../app/static/img/test*';
-  var cmd = 'rm -rf ' + testdir;
-
-  exec(cmd, function(){
-    var origfile = __dirname + '/../fixtures/euro.jpg';
-    var copyfile = __dirname + '/../fixtures/euro-copy.jpg';
-    var copyfile2 = __dirname + '/../fixtures/euro-copy2.jpg';
-    var copyfile3 = __dirname + '/../fixtures/euro-copy3.jpg';
-    fs.createReadStream(origfile).pipe(fs.createWriteStream(copyfile));
-    fs.createReadStream(origfile).pipe(fs.createWriteStream(copyfile2));
-    fs.createReadStream(origfile).pipe(fs.createWriteStream(copyfile3));
-    global.nss.db.dropDatabase(function(err, result){
+  before(function(done){
+    var initMongo = require('../../app/lib/init-mongo');
+    initMongo.db(function(){
+      Album = require('../../app/models/album');
       done();
     });
   });
-});
 
-describe('Album', function(){
+  beforeEach(function(done){
+    var testdir = __dirname + '/../../app/static/img/test*';
+    var cmd = 'rm -rf ' + testdir;
+
+    exec(cmd, function(){
+      var origfile = __dirname + '/../fixtures/euro.jpg';
+      var copy1file = __dirname + '/../fixtures/euro-copy1.jpg';
+      var copy2file = __dirname + '/../fixtures/euro-copy2.jpg';
+      fs.createReadStream(origfile).pipe(fs.createWriteStream(copy1file));
+      fs.createReadStream(origfile).pipe(fs.createWriteStream(copy2file));
+      global.nss.db.dropDatabase(function(err, result){
+        done();
+      });
+    });
+  });
+
   describe('new', function(){
-    it('creates a new album object', function(){
+    it('should create a new Album object', function(){
       var o = {};
-      o.title = 'Euro Vacation';
+      o.title = 'Test Euro Vacation';
       o.taken = '2010-03-25';
       var a1 = new Album(o);
       expect(a1).to.be.instanceof(Album);
-      expect(a1.title).to.equal('Euro Vacation');
-      expect(a1.photos).to.have.length(0);
+      expect(a1.title).to.equal('Test Euro Vacation');
       expect(a1.taken).to.be.instanceof(Date);
+      expect(a1.photos).to.have.length(0);
     });
   });
 
   describe('#addCover', function(){
-    it('adds a cover to the album', function(){
+    it('should add a cover to the Album', function(){
       var o = {};
       o.title = 'Test Euro Vacation';
       o.taken = '2010-03-25';
       var a1 = new Album(o);
-      var oldname = __dirname + '/../fixtures/euro-copy.jpg';
+      var oldname = __dirname + '/../fixtures/euro-copy1.jpg';
       a1.addCover(oldname);
       expect(a1.cover).to.equal('/img/testeurovacation/cover.jpg');
-    });
-  });
-
-  describe('#addPhoto', function(){
-    it('adds a photo to the album', function(done){
-      var o = {};
-      o.title = 'Test Euro Vacation';
-      o.taken = '2010-03-25';
-      var a1 = new Album(o);
-      var oldname = __dirname + '/../fixtures/euro-copy.jpg';
-      a1.addCover(oldname);
-      var oldname2 = __dirname + '/../fixtures/euro-copy2.jpg';
-      a1.addPhoto(oldname2, 'euro-copy.jpg', function(){
-        expect(a1.photos[0]).to.equal('/img/testeurovacation/euro-copy.jpg');
-        expect(a1.photos).to.have.length(1);
-        done();
-      });
     });
   });
 
@@ -85,18 +67,29 @@ describe('Album', function(){
       a1.insert(function(){
         done();
       });
-    });:w
+    });
 
+    it('should add a photo to the Album', function(done){
+      var id = a1._id.toString();
+      Album.findById(id, function(album){
+        var photo = __dirname + '/../fixtures/euro-copy2.jpg';
+        album.addPhoto(photo, 'france.jpg');
+        expect(album.photos).to.have.length(1);
+        expect(album.photos[0]).to.equal('/img/testa/france.jpg');
+        done();
+      });
+    });
+  });
 
   describe('#insert', function(){
-    it('saves an album to the database', function(done){
+    it('should insert a new Album into Mongo', function(done){
       var o = {};
+      o.title = 'Test Euro Vacation';
       o.taken = '2010-03-25';
-      o.title = 'Euro Vacation';
       var a1 = new Album(o);
-      var oldname = __dirname + '/../fixtures/euro-copy.jpg';
+      var oldname = __dirname + '/../fixtures/euro-copy1.jpg';
       a1.addCover(oldname);
-      a1.insert(function(){
+      a1.insert(function(err){
         expect(a1._id.toString()).to.have.length(24);
         done();
       });
@@ -104,17 +97,26 @@ describe('Album', function(){
   });
 
   describe('#update', function(){
-    it('updates an album to the database', function(done){
-      var o = {};
-      o.taken = '2010-03-25';
-      o.title = 'Test Euro Vacation';
-      var a1 = new Album(o);
-      var oldname = __dirname + '/../fixtures/euro-copy.jpg';
+    var a1;
+
+    beforeEach(function(done){
+      a1 = new Album({title:'Test A', taken:'2012-03-25'});
+      var oldname = __dirname + '/../fixtures/euro-copy1.jpg';
       a1.addCover(oldname);
       a1.insert(function(){
-        a1.taken = new Date('2011-03-25');
-        a1.update(function(){
-          expect(a1.taken).to.be.instanceof(Date);
+        done();
+      });
+    });
+
+    it('should update an existing photo album', function(done){
+      var id = a1._id.toString();
+      Album.findById(id, function(album){
+        var photo = __dirname + '/../fixtures/euro-copy2.jpg';
+        album.addPhoto(photo, 'france.jpg');
+        expect(album.photos).to.have.length(1);
+        expect(album.photos[0]).to.equal('/img/testa/france.jpg');
+        album.update(function(err, count){
+          expect(count).to.equal(1);
           done();
         });
       });
@@ -122,12 +124,12 @@ describe('Album', function(){
   });
 
   describe('Find Methods', function(){
-    //var a1;
+    var a1, a2, a3;
 
     beforeEach(function(done){
-      var a1 = new Album({title:'A', taken:'2012-03-25'});
-      var a2 = new Album({title:'B', taken:'2012-03-26'});
-      var a3 = new Album({title:'C', taken:'2012-03-27'});
+      a1 = new Album({title:'Test A', taken:'2012-03-25'});
+      a2 = new Album({title:'Test B', taken:'2012-03-26'});
+      a3 = new Album({title:'Test C', taken:'2012-03-27'});
 
       a1.insert(function(){
         a2.insert(function(){
@@ -139,24 +141,21 @@ describe('Album', function(){
     });
 
     describe('.findAll', function(){
-      it('finds all the albums in the database', function(done){
+      it('should find all the albums in the database', function(done){
         Album.findAll(function(albums){
           expect(albums).to.have.length(3);
+          expect(albums[0].photos).to.have.length(0);
           done();
         });
       });
     });
 
     describe('.findById', function(){
-      it('finds an album based on the album id', function(done){
-        var a4 = new Album({title:'C', taken:'2012-03-27'});
-        a4.insert(function(){
-          var id = a4._id;
-          Album.findById(a4._id.toString(), function(album){
-            expect(album._id.toString()).to.have.length(24);
-            expect(album._id.toString()).to.equal(id.toString());
-            done();
-          });
+      it('should find a specific album in the database', function(done){
+        Album.findById(a1._id.toString(), function(album){
+          expect(album._id).to.deep.equal(a1._id);
+          expect(album).to.respondTo('addCover');
+          done();
         });
       });
     });

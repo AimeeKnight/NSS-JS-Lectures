@@ -58,6 +58,7 @@ Album.findById = function(id, fn){
   var _id = Mongo.ObjectID(id);
 
   albums.findOne({_id:_id}, function(err, record){
+    // extend (lodash method) sets the protoype of the object mongo returns
     fn(_.extend(record, Album.prototype));
   });
 };

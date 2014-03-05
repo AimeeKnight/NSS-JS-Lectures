@@ -154,6 +154,7 @@ describe('Album', function(){
       it('should find a specific album in the database', function(done){
         Album.findById(a1._id.toString(), function(album){
           expect(album._id).to.deep.equal(a1._id);
+          // use respondTo test since instanceof will not always return correct results
           expect(album).to.respondTo('addCover');
           done();
         });

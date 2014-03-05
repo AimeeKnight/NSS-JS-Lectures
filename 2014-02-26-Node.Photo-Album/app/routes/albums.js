@@ -29,6 +29,8 @@ exports.create = function(req, res){
 
 exports.photoAdd = function(req, res){
   Album.findById(req.params.id, function(album){
+    // req.files.photo.path === nodes temporary directory ie mangled photo name
+    // req.files.photo.name === the name of the photo
     album.addPhoto(req.files.photo.path, req.files.photo.name);
     album.update(function(){
       res.redirect('/albums/' + req.params.id);
