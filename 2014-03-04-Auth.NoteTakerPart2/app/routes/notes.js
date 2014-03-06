@@ -1,21 +1,26 @@
 'use strict';
 
 var Note = require('../models/note');
+var Mongo = require('mongodb');
+var moment = require('moment');
 
 exports.index = function(req, res){
   Note.findByUserId(req.session.userId, function(notes){
-    res.render('notes/index', {title:'All Notes', notes:notes});
+    res.render('notes/index', {title:'All Notes', notes:notes, moment:moment});
   });
 };
 
 exports.new = function(req, res){
-  res.render('notes/new', {title:'New Note'});
+  console.log('USER ID', req.session.userId.toString());
+  res.render('notes/new', {title:'New Note', userId:req.session.userId.toString()});
 };
 
 exports.create = function(req, res){
+  //req.body.userId = req.session.userId;
   var note = new Note(req.body);
+  note.userId = Mongo.ObjectID(req.session.userId);
   note.insert(function(){
-    res.redirect('notes/index');
+    res.redirect('/notes');
   });
 };
 

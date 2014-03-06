@@ -13,8 +13,11 @@ block content
               input(type='text' name='title' required placeholder='Title')
               label Body
               textarea(name='body' required)
-              label Created Date
-              input(type='date' name='dateCreated')
               label Tags
               input(type='text' name='tags')
-              button Save Note
+          .row
+            .small-6.columns
+              label Created Date
+              input(type='date' name='dateCreated')
+            .small-6.columns
+              button.medium.radius Save Note
