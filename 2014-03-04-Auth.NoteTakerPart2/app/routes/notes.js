@@ -1,7 +1,7 @@
 'use strict';
 
 var Note = require('../models/note');
-var Mongo = require('mongodb');
+//var Mongo = require('mongodb');
 var moment = require('moment');
 
 exports.index = function(req, res){
@@ -16,9 +16,9 @@ exports.new = function(req, res){
 };
 
 exports.create = function(req, res){
-  //req.body.userId = req.session.userId;
+  req.body.userId = req.session.userId;
   var note = new Note(req.body);
-  note.userId = Mongo.ObjectID(req.session.userId);
+  //note.userId = Mongo.ObjectID(req.session.userId);
   note.insert(function(){
     res.redirect('/notes');
   });
